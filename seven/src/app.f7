@@ -105,6 +105,7 @@
 
   </div>
 </template>
+
 <script>
   export default (props, { $f7, $update }) => {
     // Login screen demo data

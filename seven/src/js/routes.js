@@ -8,6 +8,8 @@ import DynamicRoutePage from '../pages/dynamic-route.f7';
 import RequestAndLoad from '../pages/request-and-load.f7';
 import NotFoundPage from '../pages/404.f7';
 
+import LogIn from '../pages/login.f7';
+
 var routes = [
   {
     path: '/',
@@ -21,7 +23,10 @@ var routes = [
     path: '/form/',
     component: FormPage,
   },
-
+  {
+    path: '/log/',
+    component: LogIn,
+  },
 
   {
     path: '/dynamic-route/blog/:blogId/post/:postId/',
