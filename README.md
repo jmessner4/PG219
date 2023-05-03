@@ -1,4 +1,4 @@
 # PG219
 Geocaching app
 
-Julie Messner, Maya Legris
+Asma Chebbi, Julie Messner, Maya Legris
