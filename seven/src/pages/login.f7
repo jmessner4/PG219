@@ -1,46 +1,49 @@
 <template>
-<!-- Login Screen -->
-<div class="login-screen modal-in" id="my-login-screen">
-    <div class="view">
-    <div class="page">
-        <div class="page-content login-screen-content">
-        <div class="login-screen-title">Login</div>
-        <div class="list">
+
+  <!-- Default view-page layout -->
+  <div class="view">
+    <div class="page" data-name="login-screen-page">
+      <!-- page-content has additional login-screen content -->
+      <div class="page-content login-screen-content">
+        <div class="login-screen-title">Geo Cach'eirb</div>
+        <!-- Login form -->
+        <form>
+          <div class="list">
             <ul>
-            <li class="item-content item-input">
+              <li class="item-content item-input">
                 <div class="item-inner">
-                <div class="item-title item-label">Username</div>
-                <div class="item-input-wrap">
-                    <input type="text" name="username" placeholder="Your username" value="${username}" @input="${updateUsername}"/>
-
+                  <div class="item-title item-label">Username</div>
+                  <div class="item-input-wrap">
+                    <input type="text" name="username" placeholder="Username" />
+                    <span class="input-clear-button"></span>
+                  </div>
                 </div>
-                </div>
-            </li>
-            <li class="item-content item-input">
+              </li>
+              <li class="item-content item-input">
                 <div class="item-inner">
-                <div class="item-title item-label">Password</div>
-                <div class="item-input-wrap">
-                    <input type="password" name="password" placeholder="Your password" value="${password}" @input="${updatePassword}"/>
-
+                  <div class="item-title item-label">Password</div>
+                  <div class="item-input-wrap">
+                    <input type="password" name="password" placeholder="Password" />
+                    <span class="input-clear-button"></span>
+                  </div>
                 </div>
-                </div>
-            </li>
+              </li>
             </ul>
-        </div>
-        <div class="list">
+          </div>
+          <div class="list">
             <ul>
-            <li>
+              <li>
                 <a href="#" class="item-link list-button login-button" @click="${alertLoginData}">Sign In</a>
-
-            </li>
+              </li>
             </ul>
-            <div class="block-footer">Some text about login information.<br/>Click "Sign In" to close Login Screen</div>
-        </div>
-        </div>
+            <div class="block-footer">Some text with login information.</div>
+          </div>
+        </form>
+      </div>
     </div>
-    </div>
-</div>
-<\template>
+  </div>
+
+</template>
 
 <script>
   export default (props, { $f7, $update }) => {
@@ -58,7 +61,7 @@
     }
     const alertLoginData = () => {
       $f7.dialog.alert('Username: ' + username + '<br/>Password: ' + password, () => {
-        $f7.loginScreen.close();
+        app.router.navigate('/about');
       });
     }
 
