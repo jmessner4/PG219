@@ -18,6 +18,7 @@
         </div>
       </div>
     </div>
+    
     <!-- Right panel with reveal effect-->
     <div class="panel panel-right panel-reveal dark">
       <div class="view">
@@ -61,6 +62,9 @@
       </div>
     </div>
 
+
+
+
     <!-- Login Screen -->
     <div class="login-screen" id="my-login-screen">
       <div class="view">
@@ -93,7 +97,6 @@
               <ul>
                 <li>
                   <a href="#" class="item-link list-button login-button" @click="${alertLoginData}">Sign In</a>
-
                 </li>
               </ul>
               <div class="block-footer">Some text about login information.<br/>Click "Sign In" to close Login Screen</div>
@@ -103,10 +106,12 @@
       </div>
     </div>
 
+
   </div>
 </template>
 <script>
   export default (props, { $f7, $update }) => {
+
     // Login screen demo data
     let username = '';
     let password = '';
