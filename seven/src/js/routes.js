@@ -5,6 +5,7 @@ import FormPage from '../pages/form.f7';
 import ParaPage from '../pages/para.f7';
 import MapPage from '../pages/map.f7';
 import BalisePage from '../pages/balise.f7';
+import LogIn from '../pages/login.f7';
 
 
 import DynamicRoutePage from '../pages/dynamic-route.f7';
@@ -32,7 +33,10 @@ var routes = [
     path: '/balise/',
     component: BalisePage,
   },
-
+  {
+    path: '/log/',
+    component: LogIn,
+  },
 
   {
     path: '/dynamic-route/blog/:blogId/post/:postId/',

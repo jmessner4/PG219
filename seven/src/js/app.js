@@ -20,19 +20,17 @@ import App from '../app.f7';
 
 var device = getDevice();
 var app = new Framework7({
-  name: 'MyApp7', // App name
+  name: 'GeoCacheirb', // App name
   theme: 'auto', // Automatic theme detection
 
 
   el: '#app', // App root element
   component: App, // App main component
-  id: 'io.framework7.myapp', // App bundle ID
+  id: 'io.framework7.geocacheirb', // App bundle ID
   // App store
   store: store,
   // App routes
   routes: routes,
-
-
 
   // Input settings
   input: {
@@ -47,10 +45,22 @@ var app = new Framework7({
   on: {
     init: function () {
       var f7 = this;
+      var startUrl = '/log/';
+      var isLoggedIn = false;
+      //var isLoggedIn = store.state.user.isLoggedIn;
+      if (isLoggedIn) startUrl = '/';
+
+      //init view
+      var mainView = app.views.create('.view-main', {url: startUrl});
       if (f7.device.cordova) {
         // Init cordova APIs (see cordova-app.js)
         cordovaApp.init(f7);
       }
+      
     },
   },
 });
+
+
+
+ 
