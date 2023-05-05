@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="page">
     <div id="mapid"></div>
   </div>
@@ -20,3 +21,40 @@ const on = () => {
 
 }
 </script>
+=======
+<div class="page" data-name="form">
+    <div class="toolbar toolbar-bottom">
+        <div class="toolbar-inner">
+            <div class="toolbar-bg"></div>
+            <div class="toolbar-inner">
+                <a href="/balise/" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title">Balises</div>
+                    </div>
+                </a>
+                <a href="/" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title">Carte</div>
+                    </div>
+                </a>
+                <a href="/para/" class="item-content item-link">
+                    <div class="item-inner">
+                        <div class="item-title">Paramètres</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+  <div class="page-content">
+    <div class="block-title">Carte</div>
+  </div>
+</div>
+
+</template>
+<script>
+export default () => {
+  return $render;
+};
+</script>
+>>>>>>> ba916631b597ab6fad3eddac64aa5c1b06fdbb13
