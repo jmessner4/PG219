@@ -1,4 +1,5 @@
 /* iOS Cordova Tweak */
+@import '../../node_modules/leaflet/dist/leaflet.css';
 .device-cordova.device-ios {
   height: 100vh;
 }
