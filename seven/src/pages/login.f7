@@ -61,7 +61,7 @@
     }
     const alertLoginData = () => {
       $f7.dialog.alert('Username: ' + username + '<br/>Password: ' + password, () => {
-        app.router.navigate('/about');
+        $f7.router.navigate('/');
       });
     }
 

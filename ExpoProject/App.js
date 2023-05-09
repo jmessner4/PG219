@@ -1,11 +1,21 @@
-import React from 'react';
-import MapView from 'react-native-maps';
-import { StyleSheet, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TextInput,
+  Button,
+  TouchableOpacity,
+} from "react-native";
+
+//import Login from './login.js';
 
 export default function App() {
-  return (
+  return(
     <View style={styles.container}>
-      <MapView style={styles.map} />
+
     </View>
   );
 }
