@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Geo Cach'eirb",
-    "slug": "Geo Cach'eirb",
+    "name": "geocacheirb",
+    "slug": "geocacheirb",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,7 +15,10 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
