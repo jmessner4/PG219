@@ -4,46 +4,16 @@ import { StyleSheet, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-<<<<<<< HEAD
-=======
-
->>>>>>> 59545ee230361c7aba314cfebab7f291ce0b31db
 
 import Parametres from './screens/parametres';
 import Map from './screens/map';
 import Balises from './screens/balises';
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 59545ee230361c7aba314cfebab7f291ce0b31db
 
 const tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-<<<<<<< HEAD
-      <NavigationContainer>
-        <tab.Navigator screenOptions={ ({route}) => ({
-          tabBarIcon: ({focused,color,size}) => {
-            let iconName;
-            if (route.name == 'Carte') {
-              iconName = "map-outline"
-            } else if (route.name == 'Paramètres') {
-              iconName = "settings-outline"
-            }
-            else if (route.name == 'Balises') {
-              iconName = "location-outline"
-            }
-            return <Ionicons name={iconName} size={25} />
-          }
-        })}>
-          <tab.Screen name='Balises' component={Balises} />
-          <tab.Screen name='Carte' component={Map} />
-          <tab.Screen name='Paramètres' component={Parametres} />
-        </tab.Navigator>
-      </NavigationContainer>
-=======
 
     <NavigationContainer>
       <tab.Navigator screenOptions={ ({route}) => ({
@@ -66,7 +36,6 @@ export default function App() {
       </tab.Navigator>
     </NavigationContainer>
 
->>>>>>> 59545ee230361c7aba314cfebab7f291ce0b31db
   );
 }
 

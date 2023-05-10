@@ -10,7 +10,9 @@ export default function App() {
   //Récupération des caches avec la méthode axios
   const [caches, setCaches] = useState([])
     useEffect(() => {
-        axios.get('http://10.3.25.212:3000/caches')
+        axios.get('http://10.3.25.212:3000/caches', {
+          timeout: 5000
+        })
             .then(res => {
                 setCaches(res.data)
             })
