@@ -1,6 +1,5 @@
 const account = require('./usersController.js');
 
-
 const express = require("express")
 const app = express()
 

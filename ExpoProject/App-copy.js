@@ -5,19 +5,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-
-import Parametres from './screens/parametres';
-import Map from './screens/map';
+import Parametres from './parametres';
+import Map from './map';
 import Balises from './screens/balises';
-import Login from './screens/login';
-
 
 
 const tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-
     <NavigationContainer>
       <tab.Navigator screenOptions={ ({route}) => ({
         tabBarIcon: ({focused,color,size}) => {
@@ -38,22 +34,8 @@ export default function App() {
         <tab.Screen name='Paramètres' component={Parametres} />
       </tab.Navigator>
     </NavigationContainer>
-
   );
 }
-
-export const Layout = () => {
-  const { authState, onLogout} = useAuth();
-  return (<NavigationContainer>
-    <Stack.Navigator> 
-      { authState?.authent ? (
-        <Stack.Screen name="Home" component={Balises} option={{ headerRight: () => <Button onPress={onLogout} title="Sign Out" />}}></Stack.Screen>
-        ) : (
-        <Stack.Screen name="Login" component={Login} />)}
-    </Stack.Navigator>
-  </NavigationContainer>
-  );
-};
 
 const styles = StyleSheet.create({
   container: {
