@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { StyleSheet, View, Button } from 'react-native';
-import { Avatar, Title, Caption, Text } from 'react-native-paper';
+import { Avatar, Title, Caption, Text, TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from "react-native-modal";
+import { FontAwesome } from '@expo/vector-icons';
 
 
 export default function Parametres( {navigation} ) {
@@ -45,12 +46,39 @@ export default function Parametres( {navigation} ) {
         <Button title="Modifier les informations" onPress={handleModal} />
         <Modal isVisible={isModalVisible}>
 
-          <View style={{margin: 20, flex: 1}}>
+          <View style={{margin: 15, flex: 1}}>
             <Button title="Annuler" onPress={handleModal} />
-            <View style={{alignItems: 'center'}}>
-              <Text style={par.textButton}> Hello! </Text>
+            <View style={par.buttonContainer}>
+              <Text style={par.textName}>Prénom Nom</Text>
+              <TextInput
+                placeholder={Name}
+                placeholderTextColor='#666666'
+                autoCorrect={false}
+                style={par.textButton}
+              />
+              <Text style={par.textName}>Password</Text>
+              <TextInput
+                placeholder={Password}
+                placeholderTextColor='#666666'
+                autoCorrect={false}
+                style={par.textButton}
+              />
+              <Text style={par.textName}>Ville</Text>
+              <TextInput
+                placeholder={Ville}
+                placeholderTextColor='#666666'
+                autoCorrect={false}
+                style={par.textButton}
+              />
+              <Text style={par.textName}>Pays</Text>
+              <TextInput
+                placeholder={Pays}
+                placeholderTextColor='#666666'
+                autoCorrect={false}
+                style={par.textButton}
+              />
             </View>
-            <Button title="Modifier" onPress={modifModal} />
+            <Button title="Valider" onPress={modifModal} />
           </View>
 
         </Modal>
@@ -84,13 +112,21 @@ const par = StyleSheet.create({
   },
   button: {
     paddingHorizontal: 30,
-    paddingVertical: 15,
+    paddingTop: 15,
   },
   textButton: {
-    paddingTop: 10,
-    paddingBottom: 20,
-    fontWeight: 'bold',
+    marginleft: 20,
     fontSize: 20,
-    
+    color: '#f0f8ff'
+  },
+  textName: {
+    paddingTop: 20,
+    marginleft: 20,
+    fontSize: 20,
+    color: '#f0f8ff'
+  },
+  buttonContainer: {
+    marginBottom: 20,
+    marginleft: 20
   }
 });
