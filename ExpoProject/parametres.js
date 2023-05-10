@@ -2,6 +2,7 @@ import * as React from 'react';
 import { StyleSheet, View, Button } from 'react-native';
 import { Avatar, Title, Caption, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Modal from "react-native-modal";
 
 
 export default function Parametres( {navigation} ) {
@@ -11,6 +12,11 @@ export default function Parametres( {navigation} ) {
   let Ville = "Bordeaux";
   let Pays = "France";
   let Password = "xxxxx";
+
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
+  const handleModal = () => setIsModalVisible(() => !isModalVisible);
+
+  const modifModal = () => setIsModalVisible(() => !isModalVisible);
 
   return (
     <View style={par.container}>
@@ -36,10 +42,18 @@ export default function Parametres( {navigation} ) {
       </View>
       
       <View style={par.button}>
-        <Button
-          title="Modifier les informations"
-          onPress={()=>alert()}
-        />
+        <Button title="Modifier les informations" onPress={handleModal} />
+        <Modal isVisible={isModalVisible}>
+
+          <View style={{margin: 20, flex: 1}}>
+            <Button title="Annuler" onPress={handleModal} />
+            <View style={{alignItems: 'center'}}>
+              <Text style={par.textButton}> Hello! </Text>
+            </View>
+            <Button title="Modifier" onPress={modifModal} />
+          </View>
+
+        </Modal>
       </View>
     </View>
   )
@@ -71,5 +85,12 @@ const par = StyleSheet.create({
   button: {
     paddingHorizontal: 30,
     paddingVertical: 15,
+  },
+  textButton: {
+    paddingTop: 10,
+    paddingBottom: 20,
+    fontWeight: 'bold',
+    fontSize: 20,
+    
   }
 });
