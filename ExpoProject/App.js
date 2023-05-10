@@ -8,6 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Parametres from './parametres';
 import Map from './map';
 import Balises from './balises';
+import Editparametres from './editparametres';
 
 
 const tab = createBottomTabNavigator();
