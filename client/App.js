@@ -13,7 +13,6 @@ import Login from './screens/login';
 import Signup from './screens/signup';
 import { AuthProvider, useAuth } from './AuthContext';
 
-const Stack = createStackNavigator();
 
 const tab = createBottomTabNavigator();
 

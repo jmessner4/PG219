@@ -1,0 +1,41 @@
+[{
+  "_id": {
+    "$oid": "6457aaef36f7712284c4965a"
+  },
+  "id": 2,
+  "longitude": 4.85,
+  "latitude": 45.75,
+  "createur": "abc@gmail.com",
+  "difficulte": "medium",
+  "description": "plage"
+},{
+  "_id": {
+    "$oid": "6457ab1536f7712284c4965c"
+  },
+  "id": 3,
+  "longitude": 1.065343,
+  "latitude": 47.792551,
+  "createur": "abc@gmail.com",
+  "difficulte": "medium",
+  "description": "plage"
+},{
+  "_id": {
+    "$oid": "6457ab2c36f7712284c4965e"
+  },
+  "id": 4,
+  "longitude": -0.605208,
+  "latitude": 44.805643,
+  "createur": "abc@gmail.com",
+  "difficulte": "medium",
+  "description": "plage"
+},{
+  "_id": {
+    "$oid": "645bbd78ae395f783618849c"
+  },
+  "id": 10,
+  "longitude": 0.124569,
+  "latitude": 45.764043,
+  "createur": "abc@gmail.com",
+  "difficulte": "medium",
+  "description": "plage"
+}]

@@ -4,10 +4,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function Balises() {
-  let balises = []
 
-    return (
+
+export default function Balises() {
+  
+   return(
       
 
       <View style={styles.container}>
@@ -21,6 +22,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backroundcolor: '#fff',
-    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 20
   },
+  item: {
+    padding: 10,
+    fontSize: 18,
+    height: 44
+  }
 });
