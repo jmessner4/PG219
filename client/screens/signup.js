@@ -1,17 +1,23 @@
-import React from "react";
-import { View, Text, StyleSheet, Button, TextInpupt, Touchable } from "react-native";
+import React, { useState } from 'react';
+import { StyleSheet, View, TextInput, Text, Button } from 'react-native';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { createStackNavigator } from '@react-navigation/stack';
 
-import Map from "./map";
+
+import Homescreen from "./homescreen";
 import Login from "./login";
 
-const Signup = () => {
+
+
+const Signup = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     const handleCreateAccount = () => {
         try {
-            props.navigation.navigate(Map);
+            navigation.navigate(Homescreen);
         } catch (error) {
             console.log(error);
         }
@@ -19,7 +25,7 @@ const Signup = () => {
 
     const handleLogin = () => {
         try {
-            props.navigation.navigate(Login);
+            navigation.navigate(Login);
         } catch (error) {
             console.log(error);
         }
@@ -44,12 +50,10 @@ const Signup = () => {
                 secureTextEntry={true}
                 value={password}
                 onChangeText={setPassword} />
-            <TouchableOpacity style={styles.button} onPress={handleCreateAccount}>
-                <Text style={styles.buttonText}>Create Account</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
+            <Button title="Create Account" onPress={handleCreateAccount} />
+                
+            <Button title="Login" onPress={handleLogin} />
+                
         </View>
     );
 };
@@ -75,17 +79,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         marginBottom: 20,
     },
-    button: {
-        width: '100%',
-        height: 50,
-        backgroundColor: '#999',
-        borderRadius: 8,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    buttonText: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
 });
+
+export default Signup;

@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
-import { ImageBackgroundComponent, StyleSheet, View,TextInput, Button } from 'react-native';
+import { StyleSheet, View,TextInput, Button } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import Map from './map';
+import Homescreen from './homescreen';
 import Signup from './signup';
 
-const Login = () => {
+
+const Login = ({ navigation }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
    
     const handleLogin = async() => {
         try {
-            const response = await axios.post('http://localhost:3000/signup', {
+            const response = await axios.post('http://192.168.48.54:3000/signup', {
                 username,
                 password});
             const token = response.data.token;
             await AsyncStorage.setItem('token', token);
-            props.navigation.navigate(Map);
+            navigation.navigate(Homescreen);
         } catch (error) {
             console.log(error);
         }
@@ -25,7 +26,7 @@ const Login = () => {
 
     const handleCreateAccount = async() => {
         try {
-            props.navigation.navigate(Signup);
+            navigation.navigate(Signup);
         } catch (error) {
             console.log(error);
         }
@@ -58,10 +59,13 @@ const styles = StyleSheet.create({
     },
 
     input: {
-        width: '80%',
-        padding: 30,
-        borderWidth: 2,
-        marginVertical: 10,
+        width: '100%',
+        height: 50,
+        borderColor: '#999',
+        borderWidth: 1,
+        borderRadius: 8,
+        paddingHorizontal: 15,
+        marginBottom: 20,
     },
 });
 
