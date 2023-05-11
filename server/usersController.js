@@ -4,7 +4,7 @@
 async function signup(req, res) {
   const { password, email } = req.body;
   if (!email || !password) {
-    //Le cas où l'email ou bien le password ne serait pas soumit ou nul
+    //Le cas où l'email ou bien le password ne serait pas soumis ou nul
     return res.status(400).json({
       text: "Requête invalide"
     });

@@ -4,24 +4,32 @@ import { StyleSheet, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { createStackNavigator } from 'react-navigation-stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import Parametres from './screens/parametres';
 import Map from './screens/map';
 import Balises from './screens/balises';
 import Login from './screens/login';
+import Signup from './screens/signup';
+import { AuthProvider, useAuth } from './AuthContext';
 
 const Stack = createStackNavigator();
 
 const tab = createBottomTabNavigator();
 
+const token = null;
 
 
 export default function App() {
   return (
-    <AuthProvider>
-      <Layout>
-      </Layout>
+    <View>
+    {(token === null) ? (
+      <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={Login} />
+      </Stack.Navigator>
+    </NavigationContainer>  
+    ) : (
       <NavigationContainer>
         <tab.Navigator screenOptions={ ({route}) => ({
           tabBarIcon: ({focused,color,size}) => {
@@ -36,28 +44,18 @@ export default function App() {
             }
             return <Ionicons name={iconName} size={25} />
           }
-        })}>
+          })}>
           <tab.Screen name='Balises' component={Balises} />
           <tab.Screen name='Carte' component={Map} />
           <tab.Screen name='Paramètres' component={Parametres} />
         </tab.Navigator>
-      </NavigationContainer>
-    </AuthProvider>
+       </NavigationContainer>
+    )}
+    </View>
   );
 }
 
-export const Layout = () => {
-  const { authState, onLogout} = useAuth();
-  return (<NavigationContainer>
-    <Stack.Navigator> 
-      { authState?.authent ? (
-        <Stack.Screen name="Home" component={Balises} option={{ headerRight: () => <Button onPress={onLogout} title="Sign Out" />}}></Stack.Screen>
-        ) : (
-        <Stack.Screen name="Login" component={Login} />)}
-    </Stack.Navigator>
-  </NavigationContainer>
-  );
-};
+
 
 const styles = StyleSheet.create({
   container: {

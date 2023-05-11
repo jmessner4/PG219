@@ -18,7 +18,7 @@ app.use((req, res, next) => {
 
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID
-const url = 'mongodb://localhost:27017/PG219';
+const url = 'mongodb://localhost:27017/geocachdb';
 
 const accountChecker = (req, res, next) => {
 	const user = {
@@ -45,7 +45,7 @@ const accountChecker = (req, res, next) => {
 
 
 MongoClient.connect(url)
-	.then(client => client.db("PG219").collection("authentification"))
+	.then(client => client.db("geocachdb").collection("Users"))
 	.then(user => {
         // Se connecter
         app.post('/login',usersController.login);
