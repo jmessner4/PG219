@@ -4,7 +4,7 @@ import * as SecureStore from 'expo-secure-store';
 
 
 const TOKEN_KEY = 'my-jwt';
-export const API_URL = 'https://api.developbetterapps.com';
+export const API_URL = '../server/usersConnect.js';
 const AuthContext = createContext({});
 
 export const useAuth = () => {
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
     
     const register = async () => {
         try {
-            return await axios.post(`${API_URL}/users`, {email, password});
+            return await axios.post(`${API_URL}/signup`, {email, password});
         } catch (e) {
             return {error: true, msg: e.response.data.message};
         }
@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
 
    const login = async () => {
         try {
-            const result =  await axios.post(`${API_URL}/auth`, {email, password});
+            const result =  await axios.post(`${API_URL}/login`, {email, password});
 
             setAuthState({
                 token: result.data.token,

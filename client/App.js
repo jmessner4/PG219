@@ -4,38 +4,34 @@ import { StyleSheet, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import Parametres from './screens/parametres';
-import Map from './screens/map';
-import Balises from './screens/balises';
+import Opening from './screens/opening';
+import Login from './screens/login';
+import Signup from './screens/signup';
+import Homescreen from './screens/homescreen';
 
+const Stack = createStackNavigator();
 
 const tab = createBottomTabNavigator();
 
+const token = null;
+
+
 export default function App() {
   return (
-
     <NavigationContainer>
-      <tab.Navigator screenOptions={ ({route}) => ({
-        tabBarIcon: ({focused,color,size}) => {
-          let iconName;
-          if (route.name == 'Carte') {
-            iconName = "map-outline"
-          } else if (route.name == 'Paramètres') {
-            iconName = "settings-outline"
-          }
-          else if (route.name == 'Balises') {
-            iconName = "location-outline"
-          }
-          return <Ionicons name={iconName} size={25} />
-        }
-      })}>
-        <tab.Screen name='Balises' component={Balises} />
-        <tab.Screen name='Carte' component={Map} />
-        <tab.Screen name='Paramètres' component={Parametres} />
-      </tab.Navigator>
+      
+      <Stack.Navigator>
+        {/* Screens */}
+        <Stack.Screen name="Opening" component={Opening} options={{ headerLeft: null }}/>
+        <Stack.Screen name="Signup" component={Signup} options={{ headerLeft: null }} />
+        <Stack.Screen name="Login" component={Login} options={{ headerLeft: null }} />
+        <Stack.Screen name="Homescreen" component={Homescreen} options={{ headerLeft: null }}/>
+      </Stack.Navigator>
+  
+      
     </NavigationContainer>
-
   );
 }
 
