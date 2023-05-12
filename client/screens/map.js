@@ -1,19 +1,19 @@
 import React from 'react';
-import MapView from 'react-native-maps';
+import MapView, { Circle } from 'react-native-maps';
 import { StyleSheet, View,Button } from 'react-native';
 import {Marker} from 'react-native-maps';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Modal from "react-native-modal";
 import { Text, TextInput } from 'react-native-paper';
-
+import * as Location from 'expo-location';
 //Création de la carte géographique
 
 export default function App() {
   //Récupération des caches avec la méthode axios
   const [caches, setCaches] = useState([])
     useEffect(() => {
-        axios.get('http://10.11.1.52:3000/caches')
+        axios.get('http://192.168.53.101:3000/caches')
             .then(res => {
                 setCaches(res.data)
             })
@@ -29,17 +29,17 @@ const [PressedMarker, setPressedMarker] = useState({});
 const handleMarkerPress = (cache) => {
   setPressedMarker(cache);
   handleModal();
-};  
+}; 
+
+
   return (
     <View style={styles.container}>
-      
- 
     <MapView style={styles.map} initialRegion={{
     latitude: 46.583,
     longitude: 1.7315,
-    latitudeDelta: 8,
-    longitudeDelta: 8,
-  }}   showsUserLocation = {true}>
+    latitudeDelta: 4,
+    longitudeDelta: 4,
+  }}>
     
     {caches.map((cache,idx) => (
                         <Marker
@@ -49,6 +49,7 @@ const handleMarkerPress = (cache) => {
                             pinColor='gold'                     
                         ></Marker>                  
                     ))}
+     
     </MapView>
     <Modal isVisible={isModalVisible}>
 
