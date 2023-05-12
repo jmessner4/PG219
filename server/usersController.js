@@ -2,8 +2,9 @@
 
 
 async function signup(req, res) {
-  const { password, email } = req.body;
-  if (!email || !password) {
+  console.log("coucou");
+  const { email, username, password } = req.body;
+  if (!email || !password || !username) {
     //Le cas où l'email ou bien le password ne serait pas soumis ou nul
     return res.status(400).json({
       text: "Requête invalide"
@@ -12,6 +13,7 @@ async function signup(req, res) {
   // Création d'un objet user, dans lequel on hash le mot de passe
   const user = {
     email: email,
+    username: username,
     password: password
     //passwordHash.generate(password)
   };
@@ -23,6 +25,15 @@ async function signup(req, res) {
     if (findUser) {
       return res.status(400).json({
         text: "L'utilisateur existe déjà"
+      });
+    }
+
+    const findUsername = await User.findOne({
+      username
+    });
+    if (findUsername) {
+      return res.status(400).json({
+        text: "Nom d'utilisateur déjà pris"
       });
     }
   } catch (error) {
@@ -43,7 +54,7 @@ async function signup(req, res) {
 
 
 async function login(req, res) {
-  const { password, email } = req.body;
+  const { email, password } = req.body;
   if (!email || !password) {
     //Le cas où l'email ou bien le password ne serait pas soumit ou nul
     return res.status(400).json({

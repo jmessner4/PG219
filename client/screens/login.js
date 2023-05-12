@@ -8,13 +8,13 @@ import Signup from './signup';
 
 
 const Login = ({ navigation }) => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
    
     const handleLogin = async() => {
         try {
-            const response = await axios.post('http://192.168.48.54:3000/signup', {
-                username,
+            const response = await axios.post('http://172.20.10.3:3000/login', {
+                email,
                 password});
             const token = response.data.token;
             await AsyncStorage.setItem('token', token);
@@ -36,9 +36,9 @@ const Login = ({ navigation }) => {
         <View style={styles.container}e>
             <TextInput
                 style={styles.input}
-                placeholder="Username"
-                value={username}
-                onChangeTest={setUsername}/>
+                placeholder="Email"
+                value={email}
+                onChangeTest={setEmail}/>
             <TextInput 
                 style={styles.input}
                 placeholder="Password"

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, Text, Button } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { createStackNavigator } from '@react-navigation/stack';
 
 
 import Homescreen from "./homescreen";
@@ -15,8 +14,14 @@ const Signup = ({navigation}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleCreateAccount = () => {
+    const handleCreateAccount = async () => {
         try {
+            const response = await axios.post('http://172.20.10.3:3000/signup', {
+                email,
+                username,
+                password});
+            const token = response.data.token;
+            await AsyncStorage.setItem('token', token);
             navigation.navigate(Homescreen);
         } catch (error) {
             console.log(error);
