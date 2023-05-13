@@ -2,9 +2,11 @@ const express = require('express')
 const app = express();
 const bodyParser = require('body-parser')
 //const ClientMongo = require('mongodb').MongoClient;
-const url_db = 'mongodb://localhost:27017/geocachdb';
-const mongoose = require('mongoose')
+const url_db = 'mongodb://0.0.0.0:27017/geocachdb';
+const mongoose = require('mongoose');
 const caches_model = require('./models/caches');
+const usersController = require('./usersController.js');
+const users_model = require('./models/users');
 
 app.listen(3000,() => {
 console.log("serveur démarré avec succès")
@@ -40,4 +42,9 @@ app.delete('/delete/:id',(req, res)=>{
    .then(caches=>res.status(200).json(caches))
    .catch(res.status('400'))       
     })  
+
+app.post('/login',usersController.login);
+
+app.post('/signup',usersController.signup);
+
 module.exports = app;
