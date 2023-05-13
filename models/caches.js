@@ -8,23 +8,30 @@ const model_caches = new schema({
 id:{
 type :"number",
 unique:true,
+required:true,
 },
 latitude:{
     type :"number",
-    unique:true,
+    required:true,
+
 },
 longitude:{
     type :"number",
-    unique:true,
+    required:true,
+
 },
 createur:{
-   type:"string"
+   type:"string",
+   default:'',
+   
 },
 difficulte:{
-    type : "string"
+    type : "string",
+    required :true
 },
 description:{
-    type :"string"
+    type :"string",
+    default:''
 }
 
 })
