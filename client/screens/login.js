@@ -1,72 +1,79 @@
-import React, { useState } from 'react';
-import { StyleSheet, View,TextInput, Button } from 'react-native';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import Homescreen from './homescreen';
-import Signup from './signup';
-
+import React, { useState } from "react";
+import { StyleSheet, View, TextInput, Button } from "react-native";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Text } from "react-native-paper";
+import Homescreen from "./homescreen";
+import Signup from "./signup";
 
 const Login = ({ navigation }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-   
-    const handleLogin = async() => {
-        try {
-            /*const response = await axios.post('http://172.20.10.3:3000/login', {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      /*const response = await axios.post('http://172.20.10.3:3000/login', {
                 email,
                 password});
             const token = response.data.token;
             await AsyncStorage.setItem('token', token);*/
-            navigation.navigate(Homescreen);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+      navigation.navigate(Homescreen);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    const handleCreateAccount = async() => {
-        try {
-            navigation.navigate(Signup);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+  const handleCreateAccount = async () => {
+    try {
+      navigation.navigate(Signup);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    return (
-        <View style={styles.container}e>
-            <TextInput
-                style={styles.input}
-                placeholder="Email"
-                value={email}
-                onChangeTest={setEmail}/>
-            <TextInput 
-                style={styles.input}
-                placeholder="Password"
-                secureTextEntry={true}
-                value={password}
-                onChangeText={setPassword} />
-            <Button title="Login" onPress={handleLogin} />
-            <Button title="Create Account" onPress={handleCreateAccount} />
-        </View>
-    );
+  return (
+    <View style={styles.container}>
+      <Text style={styles.heading}>Login</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={email}
+        onChangeTest={setEmail}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        secureTextEntry={true}
+        value={password}
+        onChangeText={setPassword}
+      />
+      <Button title="Login" onPress={handleLogin} />
+      <Button title="Create Account" onPress={handleCreateAccount} />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems:'center',
-    },
-
-    input: {
-        width: '100%',
-        height: 50,
-        borderColor: '#999',
-        borderWidth: 1,
-        borderRadius: 8,
-        paddingHorizontal: 15,
-        marginBottom: 20,
-    },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 20,
+  },
+  heading: {
+    fontSize: 30,
+    foncWeight: "bold",
+    marginBottom: 40,
+  },
+  input: {
+    width: "100%",
+    height: 50,
+    borderColor: "#999",
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    marginBottom: 20,
+  },
 });
 
 export default Login;

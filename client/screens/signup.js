@@ -2,21 +2,43 @@ import React, { useState } from "react";
 import { StyleSheet, View, TextInput, Text, Button } from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 import Homescreen from "./homescreen";
 import Login from "./login";
+const uri = "http://192.168.174.213:3000";
 
-const Signup = ({ navigation }) => {
+export default function Signup(navigate) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  //réinitialisation des différents champs après chaque fermeture de popup
+  const reinitialiser_champs = () => {
+    setEmail("");
+    setUsername("");
+    setPassword("");
+  };
 
-  const handleCreateAccount = async () => {
+  const handleCreateAccount = () => {
+    axios
+      .post(uri.concat("", "/signup"), {
+        email: email,
+        username: username,
+        password: password,
+      })
+      .then((res) => {
+        navigation.navigate(Login);
+        reinitialiser_champs();
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  /*const handleCreateAccount = async () => {
     try {
       const response = await axios.post("http://192.168.48.54:3000/signup", {
-        email,
-        username,
-        password,
+        email: email,
+        username: username,
+        password: password,
       });
       const token = response.data.token;
       await AsyncStorage.setItem("token", token);
@@ -24,7 +46,7 @@ const Signup = ({ navigation }) => {
     } catch (error) {
       console.log(error);
     }
-  };
+  };*/
 
   const handleLogin = () => {
     try {
@@ -61,7 +83,7 @@ const Signup = ({ navigation }) => {
       <Button title="Login" onPress={handleLogin} />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -85,5 +107,3 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
-
-export default Signup;
