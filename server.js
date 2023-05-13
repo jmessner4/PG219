@@ -72,18 +72,22 @@ app.delete('/delete/:id',(req, res)=>{
 
 app.post('/login',async(req, res)=>{
     //le serveur vérifie si le champ id est unique et  non vide
-  if(vide(req.body.email) || vide(req.body.passeword)){
+  if(vide(req.body.email) || vide(req.body.password)){
     return res.status(404).json({message: "vide"});
   } 
     //si ce n'est pas vide on vérifie si l'id existe ou pas 
     else{
-        const mail = await users_model.collection.findOne({id: req.body.email});
+        const mail = await users_model.collection.findOne({email: req.body.email});
+        console.log(mail);
+        console.log(req.body.password);
+        console.log(mail.password);
         if(mail)
         {
-            const mpd = await users_model.collection.findOne({id: req.body.passeword});
-            if(mdp) {
+            if(req.body.password===mail.password) {
                 const token = jwt.sign({id: req.body.email}, "secret");
                 return res.status(200).json({token: token})
+            } else {
+                res.status(404).json({message: "Email ou mot de passe incorrect"});
             }
         }  else {
             res.status(404).json({message: "Email ou mot de passe incorrect"});
@@ -108,9 +112,9 @@ app.post('/signup',async(req, res)=>{
             return res.status(404).json({message: "Username déjà utilisé"})
         } else {
             //on peut aussi utiliser la fonction create qui nous retourne l'element crée
-            caches_model.collection.insertOne(req.body)
+            users_model.collection.insertOne(req.body)
             .then(()=>{
-                const token = jwt.sign({id: req.body.email}, "secret");
+                const token = jwt.sign({id: req.body.email}, secret);
                 return res.status(200).json({token: token})
             })
             .catch(res.status(400))

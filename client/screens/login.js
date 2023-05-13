@@ -13,12 +13,12 @@ const Login = ({ navigation }) => {
    
     const handleLogin = async() => {
         try {
-            /*const response = await axios.post('http://172.20.10.3:3000/login', {
-                email,
-                password});
+            const response = await axios.post('http://172.20.10.3:3000/login', {
+                email : email,
+                password : password});
             const token = response.data.token;
-            await AsyncStorage.setItem('token', token);*/
-            navigation.navigate(Homescreen);
+            await AsyncStorage.setItem('token', token);
+            if(token) {navigation.navigate(Homescreen)};
         } catch (error) {
             console.log(error);
         }
@@ -38,7 +38,7 @@ const Login = ({ navigation }) => {
                 style={styles.input}
                 placeholder="Email"
                 value={email}
-                onChangeTest={setEmail}/>
+                onChangeText={setEmail} />
             <TextInput 
                 style={styles.input}
                 placeholder="Password"

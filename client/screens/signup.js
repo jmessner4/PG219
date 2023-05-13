@@ -16,13 +16,13 @@ const Signup = ({navigation}) => {
 
     const handleCreateAccount = async () => {
         try {
-            const response = await axios.post('http://192.168.48.54:3000/signup', {
+            const response = await axios.post('http://172.20.10.3:3000/signup', {
                 email,
                 username,
                 password});
             const token = response.data.token;
             await AsyncStorage.setItem('token', token);
-            navigation.navigate(Homescreen);
+            if(token) {navigation.navigate(Homescreen)};
         } catch (error) {
             console.log(error);
         }
