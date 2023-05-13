@@ -22,7 +22,7 @@ const Signup = ({navigation}) => {
                 password});
             const token = response.data.token;
             await AsyncStorage.setItem('token', token);
-            navigation.navigate(Homescreen);
+            if(token) {navigation.navigate(Homescreen)};
         } catch (error) {
             console.log(error);
         }

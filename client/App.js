@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState, localStorage, getItem} from 'react';
 import MapView from 'react-native-maps';
 import { StyleSheet, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -15,19 +15,28 @@ const Stack = createStackNavigator();
 
 const tab = createBottomTabNavigator();
 
-const token = null;
-
 
 export default function App() {
+  const [hasToken, setHasToken] = useState(false);
+
+  useEffect(() => {
+   if (typeof window !== 'undefined' && window.localStorage) {
+      // Vérifie si un token est enregistré
+      const token = localStorage.getItem('token');
+      if (token) {
+        setHasToken(true);
+      }
+    }
+  }, []);
+
   return (
     <NavigationContainer>
       
-      <Stack.Navigator>
-        {/* Screens
+      <Stack.Navigator initialRouteName={hasToken ? 'Homescreen' : 'Opening'}>
+        {/* Screens */}
         <Stack.Screen name="Opening" component={Opening} options={{ headerLeft: null }}/>
         <Stack.Screen name="Signup" component={Signup} options={{ headerLeft: null }} />
         <Stack.Screen name="Login" component={Login} options={{ headerLeft: null }} />
-        */}
         <Stack.Screen name="Géocach'eirb" component={Homescreen} options={{ headerLeft: null }}/>
       </Stack.Navigator>
   
