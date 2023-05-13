@@ -2,12 +2,15 @@ const express = require('express')
 const app = express();
 const bodyParser = require('body-parser')
 const ClientMongo = require('mongodb').MongoClient;
-const url_db = 'mongodb://0.0.0.0:27017/geocachdb';
+const url_db = 'mongodb://localhost:27017/geocachdb';
 const mongoose = require('mongoose');
 const caches_model = require('./models/caches');
 const usersController = require('./server/usersController.js');
 const users_model = require('./models/users');
 const jwt = require("jsonwebtoken");
+
+const secret = "JV5SHhjh_nnjnsj578snilq_nsjqk#dK";
+const options = { expiresIn: "2d" };
 
 app.listen(3000,() => {
 console.log("serveur démarré avec succès")
@@ -67,8 +70,52 @@ app.delete('/delete/:id',(req, res)=>{
    .catch(res.status('400'))       
     })  
 
-app.post('/login',usersController.login);
+app.post('/login',async(req, res)=>{
+    //le serveur vérifie si le champ id est unique et  non vide
+  if(vide(req.body.email) || vide(req.body.passeword)){
+    return res.status(404).json({message: "vide"});
+  } 
+    //si ce n'est pas vide on vérifie si l'id existe ou pas 
+    else{
+        const mail = await users_model.collection.findOne({id: req.body.email});
+        if(mail)
+        {
+            const mpd = await users_model.collection.findOne({id: req.body.passeword});
+            if(mdp) {
+                const token = jwt.sign({id: req.body.email}, "secret");
+                return res.status(200).json({token: token})
+            }
+        }  else {
+            res.status(404).json({message: "Email ou mot de passe incorrect"});
+        }
+    }
+})
 
-app.post('/signup',usersController.signup);
+app.post('/signup',async(req, res)=>{
+    //le serveur vérifie si le champ id est unique et  non vide
+  if(vide(req.body.email)||vide(req.body.username)
+  ||vide(req.body.passeword)){
+    return res.status(404).json({message: "vide"});
+  } 
+    //si ce n'est pas vide on vérifie si l'id existe ou pas 
+    else{
+        const mail = await users_model.collection.findOne({id: req.body.email});
+        const user = await users_model.collection.findOne({id: req.body.username});
+        if(mail)
+        {
+            return res.status(404).json({message: "Email déjà utilisé"})
+        } else if(user){
+            return res.status(404).json({message: "Username déjà utilisé"})
+        } else {
+            //on peut aussi utiliser la fonction create qui nous retourne l'element crée
+            caches_model.collection.insertOne(req.body)
+            .then(()=>{
+                const token = jwt.sign({id: req.body.email}, "secret");
+                return res.status(200).json({token: token})
+            })
+            .catch(res.status(400))
+        }
+    }
+});
 
 module.exports = app;
