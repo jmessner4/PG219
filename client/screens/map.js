@@ -13,7 +13,7 @@ export default function App() {
   //Récupération des caches avec la méthode axios
   const [caches, setCaches] = useState([])
     useEffect(() => {
-        axios.get('http://192.168.53.101:3000/caches')
+        axios.get('http://10.11.1.52:3000/caches')
             .then(res => {
                 setCaches(res.data)
             })
@@ -37,8 +37,8 @@ const handleMarkerPress = (cache) => {
     <MapView style={styles.map} initialRegion={{
     latitude: 46.583,
     longitude: 1.7315,
-    latitudeDelta: 4,
-    longitudeDelta: 4,
+    latitudeDelta: 8,
+    longitudeDelta: 8,
   }}>
     
     {caches.map((cache,idx) => (
