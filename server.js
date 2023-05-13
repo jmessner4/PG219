@@ -1,12 +1,13 @@
 const express = require('express')
 const app = express();
 const bodyParser = require('body-parser')
-//const ClientMongo = require('mongodb').MongoClient;
+const ClientMongo = require('mongodb').MongoClient;
 const url_db = 'mongodb://0.0.0.0:27017/geocachdb';
 const mongoose = require('mongoose');
 const caches_model = require('./models/caches');
-const usersController = require('./usersController.js');
+const usersController = require('./server/usersController.js');
 const users_model = require('./models/users');
+const jwt = require("jsonwebtoken");
 
 app.listen(3000,() => {
 console.log("serveur démarré avec succès")

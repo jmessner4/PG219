@@ -1,7 +1,7 @@
 //const passwordHash = require("password-hash");
 const url_db = 'mongodb://0.0.0.0:27017/geocachdb';
 const mongoose = require('mongoose');
-const users_model = require('./models/users');
+const users_model = require('../models/users');
 
 const jwt = require("jsonwebtoken");
 const secret = "JV5SHhjh_nnjnsj578snilq_nsjqk#dK";
@@ -47,20 +47,6 @@ async function signup(req, res) {
   
 }
 
-async function login(req, res) {
-    // Sauvegarde de l'utilisateur en base
-    const userData = new User(user);
-    const userObject = await userData.save();
-    return (
-      res.status(200).json({
-      text: "Succès",
-      });
-      const token = jwt.sign(utilisateur, secret, options);
-    )
-  } catch (error) {
-    return res.status(500).json({ error });
-  }
-}
 
 
 async function login(req, res) {
