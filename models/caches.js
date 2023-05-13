@@ -10,10 +10,12 @@ type :"number",
 unique:true,
 },
 latitude:{
-    type :"number"
+    type :"number",
+    unique:true,
 },
 longitude:{
-    type :"number"
+    type :"number",
+    unique:true,
 },
 createur:{
    type:"string"
