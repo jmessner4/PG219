@@ -6,7 +6,8 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Modal from "react-native-modal";
 import { Text, TextInput } from 'react-native-paper';
-import * as Location from 'expo-location';
+import { Location  } from 'expo';
+
 //Création de la carte géographique
 
 export default function App() {
@@ -21,34 +22,59 @@ export default function App() {
                 console.log(error)
             })
     }, [])
+
   
- const [isModalVisible, setIsModalVisible] = React.useState(false);
+const [isModalVisible, setIsModalVisible] = React.useState(false);
 const handleModal = () => setIsModalVisible(() => !isModalVisible);
 
 const [PressedMarker, setPressedMarker] = useState({});
 const handleMarkerPress = (cache) => {
   setPressedMarker(cache);
   handleModal();
-}; 
+};
+
+
+
+ const [userLocation, setUserLocation] = useState(null);
+
+
+ useEffect(() => {
+ (async () => {
+  let {status} = await Location.requestForegroundPermissionsAsync();
+  if (status !== 'granted') {
+    setErrorMsg('Permission to access location was denied');
+  }
+  let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true});
+  setUserLocation({
+    latitude: location.coords.latitude,
+    longitude: location.coords.longitude,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  }) })()
+}, [])
+
+
 
 
   return (
     <View style={styles.container}>
     <MapView style={styles.map} initialRegion={{
-    latitude: 46.583,
-    longitude: 1.7315,
-    latitudeDelta: 8,
-    longitudeDelta: 8,
+      latitude: 46.583,
+      longitude: 1.7315,
+      latitudeDelta: 8,
+      longitudeDelta: 8,
   }}>
-    
+
+    {userLocation && <Marker coordinate={userLocation.coords} />}
+
     {caches.map((cache,idx) => (
-                        <Marker
-                            coordinate={{latitude: cache.latitude, longitude: cache.longitude}}
-                            key={idx}  
-                            onPress={()=>handleMarkerPress(cache)}  
-                            pinColor='gold'                     
-                        ></Marker>                  
-                    ))}
+      <Marker
+          coordinate={{latitude: cache.latitude, longitude: cache.longitude}}
+          key={idx}  
+          onPress={()=>handleMarkerPress(cache)}  
+          pinColor='gold'                     
+      ></Marker>                  
+    ))}
      
     </MapView>
     <Modal isVisible={isModalVisible}>
