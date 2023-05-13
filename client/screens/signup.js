@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     },
     heading: {
         fontSize: 30,
-        foncWeight: 'bold',
+        fontWeight: 'bold',
         marginBottom: 40,
     },
     input: {

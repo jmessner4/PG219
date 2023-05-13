@@ -23,11 +23,12 @@ export default function App() {
     <NavigationContainer>
       
       <Stack.Navigator>
-        {/* Screens */}
+        {/* Screens
         <Stack.Screen name="Opening" component={Opening} options={{ headerLeft: null }}/>
         <Stack.Screen name="Signup" component={Signup} options={{ headerLeft: null }} />
         <Stack.Screen name="Login" component={Login} options={{ headerLeft: null }} />
-        <Stack.Screen name="Homescreen" component={Homescreen} options={{ headerLeft: null }}/>
+        */}
+        <Stack.Screen name="Géocach'eirb" component={Homescreen} options={{ headerLeft: null }}/>
       </Stack.Navigator>
   
       

@@ -2,7 +2,7 @@ const express = require('express')
 const app = express();
 const bodyParser = require('body-parser')
 //const ClientMongo = require('mongodb').MongoClient;
-const url_db = 'mongodb://localhost:27017/geocachdb';
+const url_db = 'mongodb://0.0.0.0:27017/geocachdb';
 const mongoose = require('mongoose')
 const caches_model = require('./models/caches');
 
