@@ -9,10 +9,6 @@ import Login from "./login";
 const Stack = createStackNavigator();
 
 const Opening = ({ navigation }) => {
-    const [email, setEmail] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-
    
     return (
         <View style={styles.container}>

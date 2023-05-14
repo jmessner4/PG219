@@ -1,32 +1,50 @@
-import React from "react";
-import MapView, { Circle } from "react-native-maps";
-import { StyleSheet, View, Button, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Button, Text, TextInput } from "react-native";
 import { Marker } from "react-native-maps";
+import { Circle } from "react-native-maps";
 import axios from "axios";
-import { useState, useEffect } from "react";
 import Modal from "react-native-modal";
-import { Text, TextInput } from "react-native-paper";
 import * as Location from "expo-location";
+import MapView from "react-native-maps";
 
-const uri = "http://192.168.174.96:3000";
+const uri = "http://192.168.102.96:3000";
 
 export default function App() {
-
-  // Affichage de la géolocalisation
   const [location, setLocation] = useState(null);
-  const radius = 1000;
+  const [caches, setCaches] = useState([]);
+  const [pressedMarker, setpressedMarker] = useState({});
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [comment, setComment] = useState("");
+  const [username, setUsername] = useState([]);
 
+  const radius = 10000;
+
+  // Géolocalisation
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        console.log('Permission to access location was denied');
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
         return;
       }
       let { coords } = await Location.getCurrentPositionAsync({});
       setLocation(coords);
     })();
   }, []);
+
+  // Récupérer les caches
+  useEffect(() => {
+    const fetchCaches = async () => {
+      try {
+        const res = await axios.get(uri.concat("", "/caches"));
+        setCaches(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchCaches();
+  }, []);
+
   if (!location) {
     return (
       <View style={styles.container}>
@@ -34,58 +52,55 @@ export default function App() {
       </View>
     );
   }
-  location.latitude = 44.8065219
-  location.longitude = -0.607979
 
-  //Récupération des caches avec la méthode axios
-  const [caches, setCaches] = useState([]);
-  const AfficherCaches = () => {
-    axios
-      .get(uri.concat("", "/caches"))
-      .then((res) => {
-        setCaches(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  location.latitude = 44.8065219;
+  location.longitude = -0.607979;
 
 
-  //Affichege de la liste des balises
-  AfficherCaches();
 
-  //Pour la popup de create
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  function calculateDistance(mark1, mark2) {
+    const earthRadius = 6371 * 1000; // Rayon moyen de la Terre en mètres
+    const dLat = toRadians(mark1.latitude - mark2.latitude);
+    const dLon = toRadians(mark1.longitude - mark2.longitude);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRadians(mark1.latitude)) * Math.cos(toRadians(mark2.latitude)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = earthRadius * c;
+    console.log(distance)
+    return distance;
+  }
+  
+  function toRadians(degrees) {
+    return degrees * (Math.PI / 180);
+  }
+
+
+  // Fenetre pop-up
   const handleModal = () => {
-    setIsModalVisible(() => !isModalVisible);
+    setIsModalVisible((prevState) => !prevState);
   };
-  /*Lorsque le joueur clique sur un marqueur une popup s'affiche
-   contenant les infos de la cache et un espace de commentaire concernant cette cache*/
-  const [PressedMarker, setPressedMarker] = useState({});
   const handleMarkerPress = (cache) => {
-    setPressedMarker(cache);
+    setpressedMarker(cache);
     handleModal();
   };
-  //En cas d'ajout de commentaire et d'appui sur valider
-  //La fonction handleCreate est la suivante
-  const [comment, setComment] = useState("");
-  const [username, setUsername] = useState("");
+
+  
   //envoi d'une requète pour la récupération du username du joueur connecté
-  const getUser = () => {
-    axios
-      .get(uri.concat("", "/username"))
-      .then((res) => {
-        setUsername(res.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const getUser = async () => {
+    try {
+      const res = await axios.get(uri.concat("", "/username"));
+      setUsername(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
   getUser();
+
+
+  // Création d'un commentaire
   const createComment = () => {
     axios
       .post(uri.concat("", "/commentaire"), {
-        idbalise: PressedMarker.id,
+        idbalise: pressedMarker.id,
         username: username,
         commentaire: comment,
       })
@@ -99,16 +114,17 @@ export default function App() {
         console.error(error);
       });
   };
-
+  
+  
   return (
     <View style={styles.container}>
       <MapView
         style={styles.map}
         initialRegion={{
-          latitude: 46.583,
-          longitude: 1.7315,
-          latitudeDelta: 8,
-          longitudeDelta: 8,
+          latitude: location.latitude,
+          longitude: location.longitude,
+          latitudeDelta: 4,
+          longitudeDelta: 4,
         }}
       >
 
@@ -117,9 +133,8 @@ export default function App() {
             latitude: location.latitude,
             longitude: location.longitude,
           }}
-          key={0}
-          title="My Location"
-          description="This is my current location"
+          title="Ma position"
+          description="Je suis ici"
           pinColor="blue"
         />
 
@@ -133,72 +148,70 @@ export default function App() {
           fillColor="rgba(158, 158, 255, 0.2)" // Spécifiez la couleur de remplissage du cercle
         />
 
+        {caches.map((cache, idx) => {
+          const distance = calculateDistance(cache, location);
+          if (distance < radius) {
+            return (
+              <Marker
+                coordinate={{
+                  latitude: cache.latitude,
+                  longitude: cache.longitude,
+                }}
+                key={idx}
+                onPress={() => handleMarkerPress(cache)}
+                pinColor="gold"
+              />
+            );
+          }
+          return null;
+          // Ignorer les marqueurs qui ne satisfont pas la condition
+        })}
 
-        {caches.map((cache, idx) => (
-          <Marker
-            coordinate={{
-              latitude: cache.latitude,
-              longitude: cache.longitude,
-            }}
-            key={idx}
-            onPress={() => handleMarkerPress(cache)}
-            pinColor="gold"
-          >
-            {(cache.latitude-location.latitude)<radius  && (cache.longitude - location.longitude)<radius && (
-                <View style={styles.markerInfo}>
-                <Text style={styles.markerInfoText}>{cache.title}</Text>
-                </View>
-            )}
-          </Marker>
-        ))}
       </MapView>
+
       <Modal isVisible={isModalVisible}>
         <View style={{ margin: 15, flex: 1 }}>
           <Button title="Annuler" onPress={handleModal} />
-          <View style={par.buttonContainer}>
-            <Text style={par.textName}>Balise {PressedMarker.id}</Text>
-            <Text style={par.textName}>
-              Localisation : {PressedMarker.latitude},{PressedMarker.longitude}
+          <View style={styles.buttonContainer}>
+            <Text style={styles.textName}>Balise {pressedMarker.id}</Text>
+            <Text style={styles.textName}>
+              Localisation : {pressedMarker.latitude},{pressedMarker.longitude}
             </Text>
-            <Text style={par.textName}>
-              Description : {PressedMarker.description}
+            <Text style={styles.textName}>
+              Description : {pressedMarker.description}
             </Text>
-            <Text style={par.textName}>
-              Difficulté : {PressedMarker.difficulte}
+            <Text style={styles.textName}>
+              Difficulté : {pressedMarker.difficulte}
             </Text>
-            <Text style={par.textName}>
-              Créateur : {PressedMarker.createur}
+            <Text style={styles.textName}>
+              Créateur : {pressedMarker.createur}
             </Text>
-            <Text style={par.textName}>Commentaire</Text>
-
+            <Text style={styles.textName}>Commentaire</Text>
             <TextInput
               placeholder="Vous pouvez écrire un commentaire"
               placeholderTextColor="#666666"
               autoCorrect={false}
               onChangeText={setComment}
-              style={par.textButton}
+              style={styles.textButton}
             />
           </View>
           <Button title="Valider" onPress={createComment} />
         </View>
       </Modal>
+
     </View>
   );
 }
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backroundcolor: '#fff',
   },
   map: {
     width: "100%",
     height: "100%",
-  },
-});
-
-const par = StyleSheet.create({
-  container: {
-    flex: 1,
-    backroundcolor: "#fff",
   },
   textButton: {
     paddingLeft: 20,

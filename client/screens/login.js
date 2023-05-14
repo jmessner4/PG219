@@ -12,7 +12,7 @@ const Login = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://192.168.174.96:3000/login", {
+      const response = await axios.post("http://192.168.102.96:3000/login", {
         email: email,
         password: password,
       });

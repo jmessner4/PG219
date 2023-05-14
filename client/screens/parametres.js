@@ -1,47 +1,65 @@
-import * as React from 'react';
-import { StyleSheet, View, Button, Image } from 'react-native';
-import { Text, TextInput } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import React from "react";
+import { StyleSheet, ScrollView, View, Button, Image } from "react-native";
+import { Text, TextInput } from "react-native-paper";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Modal from "react-native-modal";
-import { FontAwesome } from '@expo/vector-icons';
-import { useState, useEffect } from "react";
 import axios from "axios";
+import { useState, useEffect } from "react";
 
-const uri = "http://192.168.174.96:3000";
+const uri = "http://192.168.102.96:3000";
 
+export default function Parametres() {
+  //Récupérer les données de l'utilisateur
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [user, setUser] = useState("");
 
-export default function Parametres( {navigation} ) {
-
-  //let Name = "Maya Legris";
-  let Email = "bouclq@vqv";
   let Ville = "Bordeaux";
   let Pays = "France";
-  let Password = "xxxxx";
+
+  const GetUser = async () => {
+    console.log('user')
+    try {
+      const res = await axios.get(uri.concat("", "/userinfo"));
+      setUser(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  GetUser();
 
 
-  //Récupération des différents commentaires
-  const [Name, setName] = useState([]);
-  //Pour refraichir la page
-
-  const GetName = () => {
-    axios
-      .get(uri.concat("", "/username"))
-      .then((res) => {
-        setName(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  //réinitialisation des différents champs après chaque fermeture de popup
+  const reinitialiser_champs = () => {
+    setEmail("");
+    setPassword("");
   };
 
-  GetName();
+  //Pour la popup
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const handleModal = () => {
+    setIsModalVisible(() => !isModalVisible);
+    //reinitialiser les champs de la popup
+    reinitialiser_champs();
+  };
 
-
-
-  const [isModalVisible, setIsModalVisible] = React.useState(false);
-  const handleModal = () => setIsModalVisible(() => !isModalVisible);
-
-  const modifModal = () => setIsModalVisible(() => !isModalVisible);
+  //Modifier les paramètres
+  const modifModal = () => {
+    axios
+      .put(uri.concat(`/updateuser`), {
+        email: email,
+        password: password,
+      })
+      .then((res) => {
+        //Actualiser les nouvelles données
+        GetUser();
+        handleModal();
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   return (
     <View style={par.container}>
@@ -50,7 +68,7 @@ export default function Parametres( {navigation} ) {
           source={require('../assets/logo(1024).png')}
           style={par.image}
         />
-        <Text style={par.txt}> {Name}</Text>
+        <Text style={par.txt}> {user.username}</Text>
       </View>
 
       <View style={par.userInfo}>
@@ -60,7 +78,7 @@ export default function Parametres( {navigation} ) {
           </View>
           <View style={par.row}>
             <Icon name="email" color="#777777" size={20}/>
-            <Text style={{color:"#777777", PaddingLeft: 20}}> {Email} </Text>
+            <Text style={{color:"#777777", PaddingLeft: 20}}> {user.email} </Text>
           </View>
       </View>
       
@@ -71,32 +89,18 @@ export default function Parametres( {navigation} ) {
           <View style={{margin: 15, flex: 1}}>
             <Button title="Annuler" onPress={handleModal} />
             <View style={par.buttonContainer}>
-              <Text style={par.textName}>Prénom Nom</Text>
+              <Text style={par.textName}>Nouveau Mot de Passe</Text>
               <TextInput
-                placeholder={Name}
-                placeholderTextColor='#666666'
-                autoCorrect={false}
+                required={true}
+                onChangeText={setPassword}
+                placeholderTextColor="#666666"
                 style={par.textButton}
               />
-              <Text style={par.textName}>Password</Text>
+              <Text style={par.textName}>Nouveau Email</Text>
               <TextInput
-                placeholder={Password}
-                placeholderTextColor='#666666'
-                autoCorrect={false}
-                style={par.textButton}
-              />
-              <Text style={par.textName}>Ville</Text>
-              <TextInput
-                placeholder={Ville}
-                placeholderTextColor='#666666'
-                autoCorrect={false}
-                style={par.textButton}
-              />
-              <Text style={par.textName}>Pays</Text>
-              <TextInput
-                placeholder={Pays}
-                placeholderTextColor='#666666'
-                autoCorrect={false}
+                required={true}
+                onChangeText={setEmail}
+                placeholderTextColor="#666666"
                 style={par.textButton}
               />
             </View>
