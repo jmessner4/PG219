@@ -1,11 +1,10 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
-
 import Parametres from "./parametres";
 import Map from "./map";
 import Balises from "./balises";
-
+import Commentaire from "./commentaires";
 const tab = createBottomTabNavigator();
 
 export default function Homescreen() {
@@ -21,6 +20,8 @@ export default function Homescreen() {
               iconName = "settings-outline";
             } else if (route.name == "Balises") {
               iconName = "location-outline";
+            } else if (route.name == "Commentaires") {
+              iconName = "chatbox-outline";
             }
             return <Ionicons name={iconName} size={25} />;
           },
@@ -28,6 +29,7 @@ export default function Homescreen() {
       >
         <tab.Screen name="Balises" component={Balises} />
         <tab.Screen name="Carte" component={Map} />
+        <tab.Screen name="Commentaires" component={Commentaire} />
         <tab.Screen name="Paramètres" component={Parametres} />
       </tab.Navigator>
     </NavigationContainer>
