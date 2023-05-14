@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import Modal from "react-native-modal";
 import { Text, TextInput } from "react-native-paper";
 import * as Location from "expo-location";
-const uri = "http://192.168.174.213:3000";
+const uri = "http://192.168.0.10:3000";
 
 export default function App() {
   //Récupération des caches avec la méthode axios

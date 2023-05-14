@@ -4,12 +4,33 @@ import { Avatar, Title, Caption, Text, TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from "react-native-modal";
 import { FontAwesome } from '@expo/vector-icons';
+import jwtDecode from 'jwt-decode';
+
+const jwt = require('jsonwebtoken');
+const secret = "JV5SHhjh_nnjnsj578snilq_nsjqk#dK";
 
 
 export default function Parametres( {navigation} ) {
+  const name = "John Doe";
+  const email = " ";
 
-  let Name = "Maya Legris";
-  let Email = "bouclq@vqv";
+  useEffect(() => {
+   if (typeof window !== 'undefined' && window.localStorage) {
+      // Vérifie si un token est enregistré
+      token = localStorage.getItem('token');
+      if (token) {
+        name = localStorage.getItem('name');
+        email = localStorage.getItem('email');
+      } else {
+        console.log('no token');
+      }
+    }
+  }, []);
+
+ 
+
+  let Name = name;
+  let Email = email;
   let Ville = "Bordeaux";
   let Pays = "France";
   let Password = "xxxxx";

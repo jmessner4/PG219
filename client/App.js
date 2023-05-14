@@ -18,13 +18,15 @@ const tab = createBottomTabNavigator();
 
 export default function App() {
   const [hasToken, setHasToken] = useState(false);
+  const token = null;
 
   useEffect(() => {
    if (typeof window !== 'undefined' && window.localStorage) {
       // Vérifie si un token est enregistré
-      const token = localStorage.getItem('token');
+      token = localStorage.getItem('token');
       if (token) {
         setHasToken(true);
+        console.log('token');
       }
     }
   }, []);

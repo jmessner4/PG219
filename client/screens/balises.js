@@ -6,7 +6,7 @@ import Modal from "react-native-modal";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const uri = "http://192.168.174.213:3000";
+const uri = "http://192.168.0.10:3000";
 
 export default function Balises() {
   //Récupérer les caches

@@ -5,9 +5,9 @@ const ClientMongo = require('mongodb').MongoClient;
 const url_db = 'mongodb://localhost:27017/geocachdb';
 const mongoose = require('mongoose');
 const caches_model = require('./models/caches');
-const usersController = require('./server/usersController.js');
 const users_model = require('./models/users');
 const jwt = require("jsonwebtoken");
+import { sha256, HmacSHA256 } from 'react-native-crypto';
 
 const secret = "JV5SHhjh_nnjnsj578snilq_nsjqk#dK";
 const options = { expiresIn: "2d" };
@@ -78,13 +78,13 @@ app.post('/login',async(req, res)=>{
     //si ce n'est pas vide on vérifie si l'id existe ou pas 
     else{
         const mail = await users_model.collection.findOne({email: req.body.email});
-        console.log(mail);
-        console.log(req.body.password);
-        console.log(mail.password);
         if(mail)
         {
             if(req.body.password===mail.password) {
-                const token = jwt.sign({id: req.body.email}, "secret");
+                const token = jwt.sign(mail, "secret",  { algorithms: ['HS256'], crypto: { sha256, HmacSHA256 } });
+                localStorage.setItem("user", mail.username);
+                localStorage.setItem("email", mail.email);
+                localStorage.setItem("token", token);
                 return res.status(200).json({token: token})
             } else {
                 res.status(404).json({message: "Email ou mot de passe incorrect"});
@@ -112,9 +112,13 @@ app.post('/signup',async(req, res)=>{
             return res.status(404).json({message: "Username déjà utilisé"})
         } else {
             //on peut aussi utiliser la fonction create qui nous retourne l'element crée
-            users_model.collection.insertOne(req.body)
+            users_model.collection.insertOne(req.body);
+            const usr = await users_model.collection.findOne({email: req.body.email})
             .then(()=>{
-                const token = jwt.sign({id: req.body.email}, secret);
+                const token = jwt.sign(usr, secret,  { algorithms: ['HS256'], crypto: { sha256, HmacSHA256 } });
+                localStorage.setItem("user", usr.username);
+                localStorage.setItem("email", usr.email);
+                localStorage.setItem("token", token);
                 return res.status(200).json({token: token})
             })
             .catch(res.status(400))
