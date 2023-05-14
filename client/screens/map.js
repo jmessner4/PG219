@@ -1,6 +1,6 @@
 import React from "react";
 import MapView, { Circle } from "react-native-maps";
-import { StyleSheet, View, Button } from "react-native";
+import { StyleSheet, View, Button, ScrollView } from "react-native";
 import { Marker } from "react-native-maps";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -54,13 +54,48 @@ export default function App() {
   //Affichege de la liste des balises
   AfficherCaches();
 
-  const [isModalVisible, setIsModalVisible] = React.useState(false);
-  const handleModal = () => setIsModalVisible(() => !isModalVisible);
-
+  //Pour la popup de create
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const handleModal = () => {
+    setIsModalVisible(() => !isModalVisible);
+  };
+  /*Lorsque le joueur clique sur un marqueur une popup s'affiche
+   contenant les infos de la cache et un espace de commentaire concernant cette cache*/
   const [PressedMarker, setPressedMarker] = useState({});
   const handleMarkerPress = (cache) => {
     setPressedMarker(cache);
     handleModal();
+  };
+  //En cas d'ajout de commentaire et d'appui sur valider
+  //La fonction handleCreate est la suivante
+  const [comment, setComment] = useState("");
+  const [username, setUsername] = useState("");
+  //envoi d'une requète pour la récupération du username du joueur connecté
+  axios
+    .get(uri.concat("", "/username"))
+    .then((res) => {
+      setUsername(res.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+  const createComment = () => {
+    axios
+      .post(uri.concat("", "/commentaire"), {
+        idbalise: PressedMarker.id,
+        username: username,
+        commentaire: comment,
+      })
+      .then((res) => {
+        //fermer la popup
+        handleModal();
+        setComment("");
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -138,16 +173,16 @@ export default function App() {
               placeholder="Vous pouvez écrire un commentaire"
               placeholderTextColor="#666666"
               autoCorrect={false}
+              onChangeText={setComment}
               style={par.textButton}
             />
           </View>
-          <Button title="Valider" onPress={handleModal} />
+          <Button title="Valider" onPress={createComment} />
         </View>
       </Modal>
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
