@@ -6,7 +6,7 @@ import Modal from "react-native-modal";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const uri = "http://192.168.174.213:3000";
+const uri = "http://10.11.1.52:3000";
 
 export default function Balises() {
   //Récupérer les caches
@@ -30,7 +30,17 @@ export default function Balises() {
   const [longitude, setLongitude] = useState("");
   const [difficulte, setDifficulte] = useState("");
   const [description, setDescription] = useState("");
+  const [createur, setCreateur] = useState("");
 
+  //envoi d'une requète pour la récupération du username du joueur connecté
+  axios
+    .get(uri.concat("", "/username"))
+    .then((res) => {
+      setCreateur(res.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   //réinitialisation des différents champs après chaque fermeture de popup
   const reinitialiser_champs = () => {
     setId("");
@@ -56,6 +66,7 @@ export default function Balises() {
         longitude: parseFloat(longitude),
         difficulte: difficulte,
         description: description,
+        createur: createur,
       })
       .then((res) => {
         //Actualiser la nouvelle liste des caches
@@ -91,6 +102,7 @@ export default function Balises() {
         longitude: parseFloat(longitude),
         difficulte: difficulte,
         description: description,
+        createur: createur,
       })
       .then((res) => {
         //Actualiser la nouvelle liste des caches

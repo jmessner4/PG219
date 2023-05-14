@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, View, TextInput, Button } from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Text } from "react-native-paper";
+
 import Homescreen from "./homescreen";
 import Signup from "./signup";
 
@@ -12,12 +12,15 @@ const Login = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
-      /*const response = await axios.post('http://172.20.10.3:3000/login', {
-                email,
-                password});
-            const token = response.data.token;
-            await AsyncStorage.setItem('token', token);*/
-      navigation.navigate(Homescreen);
+      const response = await axios.post("http://10.11.1.52:3000/login", {
+        email: email,
+        password: password,
+      });
+      const token = response.data.token;
+      await AsyncStorage.setItem("token", token);
+      if (token) {
+        navigation.navigate(Homescreen);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -32,13 +35,12 @@ const Login = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Login</Text>
+    <View style={styles.container} e>
       <TextInput
         style={styles.input}
         placeholder="Email"
         value={email}
-        onChangeTest={setEmail}
+        onChangeText={setEmail}
       />
       <TextInput
         style={styles.input}
@@ -56,15 +58,10 @@ const Login = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 20,
+    alignItems: "center",
   },
-  heading: {
-    fontSize: 30,
-    foncWeight: "bold",
-    marginBottom: 40,
-  },
+
   input: {
     width: "100%",
     height: 50,
