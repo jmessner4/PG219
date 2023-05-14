@@ -97,61 +97,6 @@ app.delete("/delete/:id", (req, res) => {
     .catch(res.status("400"));
 });
 
-<<<<<<< HEAD
-app.post('/login',async(req, res)=>{
-    //le serveur vérifie si le champ id est unique et  non vide
-  if(vide(req.body.email) || vide(req.body.password)){
-    return res.status(404).json({message: "vide"});
-  } 
-    //si ce n'est pas vide on vérifie si l'id existe ou pas 
-    else{
-        const mail = await users_model.collection.findOne({email: req.body.email});
-        if(mail)
-        {
-            if(req.body.password===mail.password) {
-                const token = jwt.sign(mail, "secret",  { algorithms: ['HS256'], crypto: { sha256, HmacSHA256 } });
-                localStorage.setItem("user", mail.username);
-                localStorage.setItem("email", mail.email);
-                localStorage.setItem("token", token);
-                return res.status(200).json({token: token})
-            } else {
-                res.status(404).json({message: "Email ou mot de passe incorrect"});
-            }
-        }  else {
-            res.status(404).json({message: "Email ou mot de passe incorrect"});
-        }
-    }
-})
-
-app.post('/signup',async(req, res)=>{
-    //le serveur vérifie si le champ id est unique et  non vide
-  if(vide(req.body.email)||vide(req.body.username)
-  ||vide(req.body.passeword)){
-    return res.status(404).json({message: "vide"});
-  } 
-    //si ce n'est pas vide on vérifie si l'id existe ou pas 
-    else{
-        const mail = await users_model.collection.findOne({id: req.body.email});
-        const user = await users_model.collection.findOne({id: req.body.username});
-        if(mail)
-        {
-            return res.status(404).json({message: "Email déjà utilisé"})
-        } else if(user){
-            return res.status(404).json({message: "Username déjà utilisé"})
-        } else {
-            //on peut aussi utiliser la fonction create qui nous retourne l'element crée
-            users_model.collection.insertOne(req.body);
-            const usr = await users_model.collection.findOne({email: req.body.email})
-            .then(()=>{
-                const token = jwt.sign(usr, secret,  { algorithms: ['HS256'], crypto: { sha256, HmacSHA256 } });
-                localStorage.setItem("user", usr.username);
-                localStorage.setItem("email", usr.email);
-                localStorage.setItem("token", token);
-                return res.status(200).json({token: token})
-            })
-            .catch(res.status(400))
-        }
-=======
 /*définition d'une variable username qui va prendre le username du joueur connecté
  afin de l'utilisé coté frontend*/
 var username;
@@ -181,7 +126,6 @@ app.post("/login", async (req, res) => {
       }
     } else {
       res.status(404).json({ message: "Email ou mot de passe incorrect" });
->>>>>>> refs/remotes/origin/main
     }
   }
 });
