@@ -45,15 +45,17 @@ export default function App() {
   const [comment, setComment] = useState("");
   const [username, setUsername] = useState("");
   //envoi d'une requète pour la récupération du username du joueur connecté
-  axios
-    .get(uri.concat("", "/username"))
-    .then((res) => {
-      setUsername(res.data);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-
+  const getUser = () => {
+    axios
+      .get(uri.concat("", "/username"))
+      .then((res) => {
+        setUsername(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  getUser();
   const createComment = () => {
     axios
       .post(uri.concat("", "/commentaire"), {

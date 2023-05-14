@@ -33,14 +33,17 @@ export default function Balises() {
   const [createur, setCreateur] = useState("");
 
   //envoi d'une requète pour la récupération du username du joueur connecté
-  axios
-    .get(uri.concat("", "/username"))
-    .then((res) => {
-      setCreateur(res.data);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  const varcreateur = () => {
+    axios
+      .get(uri.concat("", "/createur"))
+      .then((res) => {
+        setCreateur(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  varcreateur();
   //réinitialisation des différents champs après chaque fermeture de popup
   const reinitialiser_champs = () => {
     setId("");

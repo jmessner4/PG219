@@ -135,6 +135,9 @@ app.post("/login", async (req, res) => {
 app.get("/username", (req, res) => {
   res.send(username);
 });
+app.get("/createur", (req, res) => {
+  res.send(username);
+});
 
 app.post("/signup", async (req, res) => {
   //le serveur vérifie si le champ id est unique et non vide
