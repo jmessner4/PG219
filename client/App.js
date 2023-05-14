@@ -39,7 +39,6 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} options={{ headerLeft: null }} />
         <Stack.Screen name="Géocach'eirb" component={Homescreen} options={{ headerLeft: null }}/>
       </Stack.Navigator>
-  
       
     </NavigationContainer>
   );
