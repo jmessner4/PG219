@@ -18,7 +18,6 @@ export default function Parametres() {
   let Pays = "France";
 
   const GetUser = async () => {
-    console.log('user')
     try {
       const res = await axios.get(uri.concat("", "/userinfo"));
       setUser(res.data);

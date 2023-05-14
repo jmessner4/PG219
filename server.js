@@ -2,12 +2,16 @@ const express = require("express");
 const app = express();
 const bodyParser = require('body-parser')
 const ClientMongo = require('mongodb').MongoClient;
-const url_db = 'mongodb://0.0.0.0:27017/geocachdb';
 const mongoose = require('mongoose')
 const caches_model = require('./models/caches');
 const users_model = require('./models/users');
 const model_commentaires = require('./models/commentaires.js');
 const jwt = require("jsonwebtoken");
+
+const uri = 'mongodb://0.0.0.0:27017/geocachdb';
+//require('dotenv').config();
+//const uri = process.env.MONGODB_URI;
+//const uri = 'mongodb+srv://mlegris:geocacheirb@cluster0.kqnxdkr.mongodb.net/?retryWrites=true&w=majority';
 
 const secret = "JV5SHhjh_nnjnsj578snilq_nsjqk#dK";
 const options = { expiresIn: "2d" };
@@ -17,8 +21,12 @@ app.listen(3000, () => {
 });
 app.use(bodyParser.json());
 //connexion à la base de donnée
+
 mongoose
-  .connect(url_db)
+  .connect(uri,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
   .then(() => console.log("connected to db"))
   .catch((err) => console.log("error"));
 
