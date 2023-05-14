@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const uri = "http://10.11.1.52:3000";
+const uri = "http://192.168.174.96:3000";
 export default function Commentaire() {
   //Récupération des différents commentaires
   const [comments, setComments] = useState([]);

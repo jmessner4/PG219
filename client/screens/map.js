@@ -199,13 +199,13 @@ const par = StyleSheet.create({
     backroundcolor: "#fff",
   },
   textButton: {
-    marginleft: 20,
+    paddingLeft: 20,
     fontSize: 20,
     color: "#f0f8ff",
   },
   textName: {
     paddingTop: 20,
-    marginleft: 20,
+    paddingLeft: 20,
     fontSize: 20,
     color: "#f0f8ff",
   },

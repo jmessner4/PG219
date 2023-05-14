@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-<<<<<<< HEAD
 const bodyParser = require('body-parser')
 const ClientMongo = require('mongodb').MongoClient;
 const url_db = 'mongodb://0.0.0.0:27017/geocachdb';
@@ -8,15 +7,6 @@ const mongoose = require('mongoose')
 const caches_model = require('./models/caches');
 const usersController = require('./server/usersController.js');
 const users_model = require('./models/users');
-=======
-const bodyParser = require("body-parser");
-const url_db = "mongodb://localhost:27017/geocachdb";
-const mongoose = require("mongoose");
-const caches_model = require("./models/caches");
-const model_commentaires = require("./models/commentaires");
-const usersController = require("./server/usersController.js");
-const users_model = require("./models/users");
->>>>>>> 4a041d153a35db494aa6a76d94bb59dd582631ff
 const jwt = require("jsonwebtoken");
 
 const secret = "JV5SHhjh_nnjnsj578snilq_nsjqk#dK";
@@ -141,7 +131,6 @@ app.post("/login", async (req, res) => {
 });
 
 //en cas de réception d'une requète de récupération du username
-
 app.get("/username", (req, res) => {
   res.send(username);
 });

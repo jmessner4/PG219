@@ -1,18 +1,42 @@
 import * as React from 'react';
-import { StyleSheet, View, Button } from 'react-native';
-import { Avatar, Title, Caption, Text, TextInput } from 'react-native-paper';
+import { StyleSheet, View, Button, Image } from 'react-native';
+import { Text, TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from "react-native-modal";
 import { FontAwesome } from '@expo/vector-icons';
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+const uri = "http://192.168.174.96:3000";
 
 
 export default function Parametres( {navigation} ) {
 
-  let Name = "Maya Legris";
+  //let Name = "Maya Legris";
   let Email = "bouclq@vqv";
   let Ville = "Bordeaux";
   let Pays = "France";
   let Password = "xxxxx";
+
+
+  //Récupération des différents commentaires
+  const [Name, setName] = useState([]);
+  //Pour refraichir la page
+
+  const GetName = () => {
+    axios
+      .get(uri.concat("", "/username"))
+      .then((res) => {
+        setName(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  GetName();
+
+
 
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const handleModal = () => setIsModalVisible(() => !isModalVisible);
@@ -22,23 +46,21 @@ export default function Parametres( {navigation} ) {
   return (
     <View style={par.container}>
       <View style={par.user}>
-        <Avatar.Image
-          source={{
-            uri: 'https://thumbs.dreamstime.com/b/avatar-principal-d-ic%C3%B4ne-de-profil-vide-homme-pour-les-sites-web-des-m%C3%A9dias-sociaux-208480728.jpg'
-          }}
-          size={80}
+        <Image
+          source={require('../assets/logo(1024).png')}
+          style={par.image}
         />
-          <Text style={par.txt}> {Name}</Text>
+        <Text style={par.txt}> {Name}</Text>
       </View>
 
       <View style={par.userInfo}>
           <View style={par.row}>
             <Icon name="map-marker-radius" color="#777777" size={20}/>
-            <Text style={{color:"#777777", marginleft: 20}}> {Ville}, {Pays} </Text>
+            <Text style={{color:"#777777", PaddingLeft: 20}}> {Ville}, {Pays} </Text>
           </View>
           <View style={par.row}>
             <Icon name="email" color="#777777" size={20}/>
-            <Text style={{color:"#777777", marginleft: 20}}> {Email} </Text>
+            <Text style={{color:"#777777", PaddingLeft: 20}}> {Email} </Text>
           </View>
       </View>
       
@@ -92,6 +114,10 @@ const par = StyleSheet.create({
     flex: 1,
     backroundcolor: '#fff',
   },
+  image: {
+    width: 200,
+    height: 200,
+  },
   user: {
     alignItems: 'center',
     paddingTop: 15,
@@ -115,18 +141,18 @@ const par = StyleSheet.create({
     paddingTop: 15,
   },
   textButton: {
-    marginleft: 20,
+    paddingLeft: 20,
     fontSize: 20,
     color: '#f0f8ff'
   },
   textName: {
     paddingTop: 20,
-    marginleft: 20,
+    paddingLeft: 20,
     fontSize: 20,
     color: '#f0f8ff'
   },
   buttonContainer: {
     marginBottom: 20,
-    marginleft: 20
+    paddingLeft: 20
   }
 });

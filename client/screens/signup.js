@@ -13,7 +13,7 @@ const Signup = ({ navigation }) => {
 
   const handleCreateAccount = async () => {
     try {
-      const response = await axios.post("http://10.11.1.52:3000/signup", {
+      const response = await axios.post("http://192.168.174.96:3000/signup", {
         email,
         username,
         password,
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 30,
-    foncWeight: "bold",
+    fontWeight: "bold",
     marginBottom: 40,
   },
   input: {
