@@ -7,7 +7,6 @@ const caches_model = require("./models/caches");
 const model_commentaires = require("./models/commentaires");
 const users_model = require("./models/users");
 const jwt = require("jsonwebtoken");
-import { sha256, HmacSHA256 } from 'react-native-crypto';
 
 const secret = "JV5SHhjh_nnjnsj578snilq_nsjqk#dK";
 const options = { expiresIn: "2d" };

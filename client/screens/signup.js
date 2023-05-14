@@ -13,7 +13,7 @@ const Signup = ({ navigation }) => {
 
   const handleCreateAccount = async () => {
     try {
-      const response = await axios.post("http://10.11.1.52:3000/signup", {
+      const response = await axios.post("http://192.168.0.10:3000/signup", {
         email,
         username,
         password,

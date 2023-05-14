@@ -4,33 +4,28 @@ import { Avatar, Title, Caption, Text, TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from "react-native-modal";
 import { FontAwesome } from '@expo/vector-icons';
-import jwtDecode from 'jwt-decode';
 
-const jwt = require('jsonwebtoken');
 const secret = "JV5SHhjh_nnjnsj578snilq_nsjqk#dK";
 
 
 export default function Parametres( {navigation} ) {
-  const name = "John Doe";
-  const email = " ";
+  const [caches, setCaches] = useState([]);
 
-  useEffect(() => {
-   if (typeof window !== 'undefined' && window.localStorage) {
-      // Vérifie si un token est enregistré
-      token = localStorage.getItem('token');
-      if (token) {
-        name = localStorage.getItem('name');
-        email = localStorage.getItem('email');
-      } else {
-        console.log('no token');
-      }
-    }
-  }, []);
+  const RecupUser = () => {
+    axios
+      .get(uri.concat("", "/caches"))
+      .then((res) => {
+        setCaches(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
- 
+  RecupUser();
 
-  let Name = name;
-  let Email = email;
+  let Name = caches[0].username;
+  let Email = caches[0].email;
   let Ville = "Bordeaux";
   let Pays = "France";
   let Password = "xxxxx";
