@@ -6,7 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Homescreen from "./homescreen";
 import Signup from "./signup";
 
-const uri = "http://192.168.102.96:3000";
+const uri = "http://192.168.0.10:3000";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");

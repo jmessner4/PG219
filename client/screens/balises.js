@@ -139,9 +139,9 @@ export default function Balises() {
           <Button title="Créer une nouvelle balise" onPress={handleModalCreate} />
           <Modal isVisible={isModalVisibleCreate}>
           <View style={{ margin: 15, flex: 1 }}>
-            <Button title="Annuler cbejhkZBC" onPress={handleModalCreate} />
+            <Button title="Annuler" onPress={handleModalCreate} />
             <View style={par.buttonContainer}>
-              <Text style={par.textName}>ID VNJZKN</Text>
+              <Text style={par.textName}>ID</Text>
               <TextInput
                 keyboardType="numeric"
                 required={true}
