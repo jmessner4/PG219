@@ -12,18 +12,21 @@ export default function Balises() {
   //Récupérer les caches
   const [caches, setCaches] = useState([]);
 
-  const AfficherCaches = () => {
-    axios
-      .get(uri.concat("", "/caches"))
-      .then((res) => {
-        setCaches(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const AfficherCaches = async () => {
+    console.log('balises')
+    try {
+      const res = await axios.get(uri.concat("", "/caches"));
+      setCaches(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
-  //Affichege de la liste des balises
-  AfficherCaches();
+
+  useEffect(() => {
+    AfficherCaches();
+  }, []);
+
+
   //Créer une cache
   const [id, setId] = useState("");
   const [latitude, setLatitude] = useState("");
@@ -33,17 +36,19 @@ export default function Balises() {
   const [createur, setCreateur] = useState("");
 
   //envoi d'une requète pour la récupération du username du joueur connecté
-  const varcreateur = () => {
-    axios
-      .get(uri.concat("", "/createur"))
-      .then((res) => {
-        setCreateur(res.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const varcreateur = async () => {
+    try {
+      const res = await axios.get(uri.concat("", "/createur"));
+      setCreateur(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
-  varcreateur();
+  useEffect(() => {
+    varcreateur();
+  }, []);
+
+
   //réinitialisation des différents champs après chaque fermeture de popup
   const reinitialiser_champs = () => {
     setId("");
@@ -52,10 +57,18 @@ export default function Balises() {
     setDifficulte("");
     setDescription("");
   };
-  //Pour la popup de create
+
+  //Pour la popup
   const [isModalVisible, setIsModalVisible] = useState(false);
   const handleModal = () => {
     setIsModalVisible(() => !isModalVisible);
+    //reinitialiser les champs de la popup
+    reinitialiser_champs();
+  };
+
+  const [isModalVisibleCreate, setIsModalVisibleCreate] = useState(false);
+  const handleModalCreate = () => {
+    setIsModalVisibleCreate(() => !isModalVisibleCreate);
     //reinitialiser les champs de la popup
     reinitialiser_champs();
   };
@@ -69,13 +82,13 @@ export default function Balises() {
         longitude: parseFloat(longitude),
         difficulte: difficulte,
         description: description,
-        createur: createur,
+        //createur: createur,
       })
       .then((res) => {
         //Actualiser la nouvelle liste des caches
         AfficherCaches();
         //fermer la popup
-        handleModal();
+        handleModalCreate();
         console.log(res.data);
       })
       .catch((error) => {
@@ -96,6 +109,7 @@ export default function Balises() {
         console.error(error);
       });
   };
+
   //Modifier une cache
   const handleUpdate = (id) => {
     axios
@@ -122,51 +136,51 @@ export default function Balises() {
     <ScrollView>
       <View style={par.container}>
         <View style={par.button}>
-          <Button title="Créer une nouvelle balise" onPress={handleModal} />
-          <Modal isVisible={isModalVisible}>
-            <View style={{ margin: 15, flex: 1 }}>
-              <Button title="Annuler" onPress={handleModal} />
-              <View style={par.buttonContainer}>
-                <Text style={par.textName}>ID</Text>
-                <TextInput
-                  keyboardType="numeric"
-                  required={true}
-                  onChangeText={setId}
-                  placeholderTextColor="#666666"
-                  style={par.textButton}
-                />
-                <Text style={par.textName}>Difficulté</Text>
-                <TextInput
-                  required={true}
-                  onChangeText={setDifficulte}
-                  placeholderTextColor="#666666"
-                  style={par.textButton}
-                />
-                <Text style={par.textName}>Description</Text>
-                <TextInput
-                  onChangeText={setDescription}
-                  placeholderTextColor="#666666"
-                  style={par.textButton}
-                />
-                <Text style={par.textName}>Latitude</Text>
-                <TextInput
-                  keyboardType="numeric"
-                  required={true}
-                  onChangeText={setLatitude}
-                  placeholderTextColor="#666666"
-                  style={par.textButton}
-                />
-                <Text style={par.textName}>Longitude</Text>
-                <TextInput
-                  keyboardType="numeric"
-                  required={true}
-                  onChangeText={setLongitude}
-                  placeholderTextColor="#666666"
-                  style={par.textButton}
-                />
-              </View>
-              <Button title="Valider" onPress={handleCreate} />
+          <Button title="Créer une nouvelle balise" onPress={handleModalCreate} />
+          <Modal isVisible={isModalVisibleCreate}>
+          <View style={{ margin: 15, flex: 1 }}>
+            <Button title="Annuler cbejhkZBC" onPress={handleModalCreate} />
+            <View style={par.buttonContainer}>
+              <Text style={par.textName}>ID VNJZKN</Text>
+              <TextInput
+                keyboardType="numeric"
+                required={true}
+                onChangeText={setId}
+                placeholderTextColor="#666666"
+                style={par.textButton}
+              />
+              <Text style={par.textName}>Difficulté</Text>
+              <TextInput
+                required={true}
+                onChangeText={setDifficulte}
+                placeholderTextColor="#666666"
+                style={par.textButton}
+              />
+              <Text style={par.textName}>Description</Text>
+              <TextInput
+                onChangeText={setDescription}
+                placeholderTextColor="#666666"
+                style={par.textButton}
+              />
+              <Text style={par.textName}>Latitude</Text>
+              <TextInput
+                keyboardType="numeric"
+                required={true}
+                onChangeText={setLatitude}
+                placeholderTextColor="#666666"
+                style={par.textButton}
+              />
+              <Text style={par.textName}>Longitude</Text>
+              <TextInput
+                keyboardType="numeric"
+                required={true}
+                onChangeText={setLongitude}
+                placeholderTextColor="#666666"
+                style={par.textButton}
+              />
             </View>
+            <Button title="Valider" onPress={handleCreate} />
+          </View>
           </Modal>
         </View>
 
@@ -175,91 +189,93 @@ export default function Balises() {
         </View>
 
         {caches.map((cache, idx) => (
-          <View style={par.userInfo} key={idx}>
-            <View style={par.row}>
-              <Text
-                style={{ fontWeight: "bold", fontSize: 20, marginBottom: 10 }}
-              >
-                {" "}
-                {"Balise"} {cache.id}{" "}
-              </Text>
-            </View>
-            <View style={par.row}>
-              <Icon name="star" color="#777777" size={20} />
-              <Text style={{ color: "#777777", paddingHorizontal: 20 }}>
-                {" "}
-                {cache.difficulte}{" "}
-              </Text>
-            </View>
-            <View style={par.row}>
-              <Icon name="comment-text-outline" color="#777777" size={20} />
-              <Text style={{ color: "#777777", paddingHorizontal: 20 }}>
-                {" "}
-                {cache.description}{" "}
-              </Text>
-            </View>
-            <View style={par.row}>
-              <Icon name="map-marker-radius" color="#777777" size={20} />
-              <Text style={{ color: "#777777", paddingHorizontal: 20 }}>
-                {" "}
-                {cache.longitude} : {cache.latitude}{" "}
-              </Text>
-            </View>
-            <View style={par.buttons}>
-              <Button
-                title="Supprimer"
-                onPress={() => handleDelete(cache.id)}
+        <View style={par.userInfo} key={idx}>
+          <View style={par.row}>
+            <Text
+              style={{ fontWeight: "bold", fontSize: 20, marginBottom: 10 }}
+            >
+              {" "}
+              {"Balise"} {cache.id}{" "}
+            </Text>
+          </View>
+          <View style={par.row}>
+            <Icon name="star" color="#777777" size={20} />
+            <Text style={{ color: "#777777", paddingHorizontal: 20 }}>
+              {" "}
+              {cache.difficulte}{" "}
+            </Text>
+          </View>
+          <View style={par.row}>
+            <Icon name="comment-text-outline" color="#777777" size={20} />
+            <Text style={{ color: "#777777", paddingHorizontal: 20 }}>
+              {" "}
+              {cache.description}{" "}
+            </Text>
+          </View>
+          <View style={par.row}>
+            <Icon name="map-marker-radius" color="#777777" size={20} />
+            <Text style={{ color: "#777777", paddingHorizontal: 20 }}>
+              {" "}
+              {cache.longitude} : {cache.latitude}{" "}
+            </Text>
+          </View>
+          <View style={par.buttons}>
+            <Button
+              title="Supprimer"
+              onPress={() => handleDelete(cache.id)}
+            />
+          </View>
+        </View>
+        ))}
+        <View style={par.button}>
+          <Button title="Modifier une balise" onPress={handleModal} />
+          <Modal isVisible={isModalVisible}>
+          <View style={{ margin: 15, flex: 1 }}>
+            <Button title="Annuler" onPress={handleModal} />
+            <View style={par.buttonContainer}>
+              <Text style={par.textName}>ID</Text>
+              <TextInput
+                keyboardType="numeric"
+                required={true}
+                onChangeText={setId}
+                placeholderTextColor="#666666"
+                style={par.textButton}
+              />
+              <Text style={par.textName}>Difficulté</Text>
+              <TextInput
+                required={true}
+                onChangeText={setDifficulte}
+                placeholderTextColor="#666666"
+                style={par.textButton}
+              />
+              <Text style={par.textName}>Description</Text>
+              <TextInput
+                onChangeText={setDescription}
+                placeholderTextColor="#666666"
+                style={par.textButton}
+              />
+              <Text style={par.textName}>Latitude</Text>
+              <TextInput
+                keyboardType="numeric"
+                required={true}
+                onChangeText={setLatitude}
+                placeholderTextColor="#666666"
+                style={par.textButton}
+              />
+              <Text style={par.textName}>Longitude</Text>
+              <TextInput
+                keyboardType="numeric"
+                required={true}
+                onChangeText={setLongitude}
+                placeholderTextColor="#666666"
+                style={par.textButton}
               />
             </View>
+            <Button title="Modifier" onPress={() => handleUpdate(id)} />
           </View>
-        ))}
-      </View>
-      <Button title="Modifier" onPress={handleModal} />
-      <Modal isVisible={isModalVisible}>
-        <View style={{ margin: 15, flex: 1 }}>
-          <Button title="Annuler" onPress={handleModal} />
-          <View style={par.buttonContainer}>
-            <Text style={par.textName}>ID</Text>
-            <TextInput
-              keyboardType="numeric"
-              required={true}
-              onChangeText={setId}
-              placeholderTextColor="#666666"
-              style={par.textButton}
-            />
-            <Text style={par.textName}>Difficulté</Text>
-            <TextInput
-              required={true}
-              onChangeText={setDifficulte}
-              placeholderTextColor="#666666"
-              style={par.textButton}
-            />
-            <Text style={par.textName}>Description</Text>
-            <TextInput
-              onChangeText={setDescription}
-              placeholderTextColor="#666666"
-              style={par.textButton}
-            />
-            <Text style={par.textName}>Latitude</Text>
-            <TextInput
-              keyboardType="numeric"
-              required={true}
-              onChangeText={setLatitude}
-              placeholderTextColor="#666666"
-              style={par.textButton}
-            />
-            <Text style={par.textName}>Longitude</Text>
-            <TextInput
-              keyboardType="numeric"
-              required={true}
-              onChangeText={setLongitude}
-              placeholderTextColor="#666666"
-              style={par.textButton}
-            />
-          </View>
-          <Button title="Modifier" onPress={() => handleUpdate(id)} />
+          </Modal>
         </View>
-      </Modal>
+      </View>
     </ScrollView>
   );
 }
@@ -274,7 +290,6 @@ const par = StyleSheet.create({
     paddingTop: 15,
   },
   txt: {
-    paddingTop: 10,
     paddingBottom: 20,
     fontWeight: "bold",
     fontSize: 20,
@@ -291,6 +306,7 @@ const par = StyleSheet.create({
   button: {
     paddingHorizontal: 30,
     paddingTop: 15,
+    paddingBottom: 15
   },
   buttons: {
     paddingHorizontal: 30,

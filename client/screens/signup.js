@@ -6,6 +6,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Homescreen from "./homescreen";
 import Login from "./login";
 
+const uri = "http://192.168.102.96:3000";
+
 const Signup = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -13,7 +15,7 @@ const Signup = ({ navigation }) => {
 
   const handleCreateAccount = async () => {
     try {
-      const response = await axios.post("http://192.168.0.10:3000/signup", {
+      const response = await axios.post(uri.concat("", "/signup"), {
         email,
         username,
         password,
@@ -74,7 +76,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 30,
-    foncWeight: "bold",
+    fontWeight: "bold",
     marginBottom: 40,
   },
   input: {

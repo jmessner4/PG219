@@ -9,7 +9,6 @@ import Login from "./login";
 const Stack = createStackNavigator();
 
 const Opening = ({ navigation }) => {
-
    
     return (
         <View style={styles.container}>
@@ -33,7 +32,7 @@ const styles = StyleSheet.create({
     },
     heading: {
         fontSize: 30,
-        foncWeight: 'bold',
+        fontWeight: 'bold',
         marginBottom: 40,
     },
     input: {

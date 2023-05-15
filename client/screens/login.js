@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, View, TextInput, Button } from "react-native";
+import { StyleSheet, View, TextInput, Button, Text } from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Homescreen from "./homescreen";
 import Signup from "./signup";
+
+const uri = "http://192.168.102.96:3000";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -12,7 +14,7 @@ const Login = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://192.168.0.10:3000/login", {
+      const response = await axios.post(uri.concat("", "/login"), {
         email: email,
         password: password,
       });
@@ -35,7 +37,8 @@ const Login = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container} e>
+    <View style={styles.container}>
+      <Text style={styles.heading}>Log In</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -61,7 +64,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
+  heading: {
+    fontSize: 30,
+    fontWeight: "bold",
+    marginBottom: 40,
+  },
   input: {
     width: "100%",
     height: 50,

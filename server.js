@@ -1,12 +1,17 @@
 const express = require("express");
 const app = express();
-const bodyParser = require("body-parser");
-const url_db = "mongodb://localhost:27017/geocachdb";
-const mongoose = require("mongoose");
-const caches_model = require("./models/caches");
-const model_commentaires = require("./models/commentaires");
-const users_model = require("./models/users");
+const bodyParser = require('body-parser')
+const ClientMongo = require('mongodb').MongoClient;
+const mongoose = require('mongoose')
+const caches_model = require('./models/caches');
+const users_model = require('./models/users');
+const model_commentaires = require('./models/commentaires.js');
 const jwt = require("jsonwebtoken");
+
+const uri = 'mongodb://0.0.0.0:27017/geocachdb';
+//require('dotenv').config();
+//const uri = process.env.MONGODB_URI;
+//const uri = 'mongodb+srv://mlegris:geocacheirb@cluster0.kqnxdkr.mongodb.net/?retryWrites=true&w=majority';
 
 const secret = "JV5SHhjh_nnjnsj578snilq_nsjqk#dK";
 const options = { expiresIn: "2d" };
@@ -16,8 +21,12 @@ app.listen(3000, () => {
 });
 app.use(bodyParser.json());
 //connexion à la base de donnée
+
 mongoose
-  .connect(url_db)
+  .connect(uri,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
   .then(() => console.log("connected to db"))
   .catch((err) => console.log("error"));
 
@@ -111,9 +120,6 @@ app.post("/login", async (req, res) => {
     const mail = await users_model.collection.findOne({
       email: req.body.email,
     });
-    console.log(mail);
-    console.log(req.body.password);
-    console.log(mail.password);
     if (mail) {
       if (req.body.password === mail.password) {
         username = mail.username;
@@ -130,10 +136,39 @@ app.post("/login", async (req, res) => {
 });
 
 //en cas de réception d'une requète de récupération du username
-
 app.get("/username", (req, res) => {
   res.send(username);
 });
+
+//en cas de requete de récupération user
+app.get("/userinfo", async (req, res) => {
+  const user = await users_model.collection.findOne({
+    username: username,
+  });
+  if (user) {
+    return res.status(200).json(user);
+  }
+});
+
+//update des données de user
+app.put("/updateuser", async (req, res) => {
+  if (
+    vide(req.body.password) ||
+    vide(req.body.email)
+  ) {
+    return res.status(404).json({ message: "vide" });
+  } else {
+    users_model
+      .updateOne({ username: username }, req.body)
+      .then(() => {
+        console.log(username)
+        return res.status(200).json({ message: "success" });
+      })
+      .catch(res.status(400));
+  }
+});
+
+
 app.get("/createur", (req, res) => {
   res.send(username);
 });
@@ -162,6 +197,7 @@ app.post("/signup", async (req, res) => {
       users_model.collection
         .insertOne(req.body)
         .then(() => {
+          username = req.body.username;
           const token = jwt.sign({ id: req.body.email }, secret);
           return res.status(200).json({ token: token });
         })

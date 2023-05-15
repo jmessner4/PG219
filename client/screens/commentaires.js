@@ -5,40 +5,40 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const uri = "http://10.11.1.52:3000";
+const uri = "http://192.168.102.96:3000";
+
 export default function Commentaire() {
   //Récupération des différents commentaires
   const [comments, setComments] = useState([]);
   //Pour refraichir la page
 
-  const AfficherCommentaire = () => {
-    axios
-      .get(uri.concat("", "/comments"))
-      .then((res) => {
+    const AfficherCommentaire = async () => {
+      try {
+        const res = await axios.get(uri.concat("", "/comments"));
         setComments(res.data);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.log(error);
-      });
-  };
-  AfficherCommentaire();
+      }
+    };
+    AfficherCommentaire();
+
   return (
     <ScrollView>
       <View style={par.container}>
         {comments.map((comment, idx) => (
           <View style={par.userInfo} key={idx}>
+            <Text
+              style={{ fontWeight: "bold", fontSize: 20, marginBottom: 10 }}
+            >
+              {" "}
+              {"Balise"} {comment.idbalise}{" "}
+            </Text>
+
             <View style={par.row}>
               <Icon name="account" color="#777777" size={20} />
               <Text style={{ color: "#777777", paddingHorizontal: 20 }}>
                 {" "}
                 {comment.username}{" "}
-              </Text>
-            </View>
-            <View style={par.row}>
-              <Icon name="map-marker" color="#777777" size={20} />
-              <Text style={{ color: "#777777", paddingHorizontal: 20 }}>
-                {" "}
-                {comment.idbalise}{" "}
               </Text>
             </View>
             <View style={par.row}>
