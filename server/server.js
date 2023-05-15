@@ -44,6 +44,41 @@ client.connect(function(err) {
   client.close();
 });
 
+// Connection URL
+const uri = 'mongodb://0.0.0.0:27017';
+// Database Name
+const dbName = 'geocachdb';
+
+// Create a new MongoClient
+const client = new ClientMongo(uri);
+// Connect to the MongoDB server
+client.connect(function(err) {
+  if (err) {
+    console.error('Erreur de connexion à la base de données:', err);
+    return;
+  }
+  console.log('Connexion réussie à la base de données');
+
+  // Create the "caches" collection
+  const cachesCollection = client.db(dbName).createCollection('caches', function(err, res) {
+    if (err) throw err;
+    console.log('Collection "caches" créée avec succès');
+  });
+  // Create the "commentaires" collection
+  const commentairesCollection = client.db(dbName).createCollection('commentaires', function(err, res) {
+    if (err) throw err;
+    console.log('Collection "commentaires" créée avec succès');
+  });
+  // Create the "users" collection
+  const usersCollection = client.db(dbName).createCollection('users', function(err, res) {
+    if (err) throw err;
+    console.log('Collection "users" créée avec succès');
+  });
+
+  // Close the connection to the MongoDB server
+  client.close();
+});
+
 const secret = "JV5SHhjh_nnjnsj578snilq_nsjqk#dK";
 const options = { expiresIn: "2d" };
 
@@ -60,6 +95,31 @@ mongoose
   })
   .then(() => console.log("connected to db"))
   .catch((err) => console.log("error"));
+
+
+///////////////////////////////////// A commenter si reload /////////////////////////////////////////
+
+// Créer une cache
+const cacheData = {
+  _id: '6461f5be1fab6480723f9143',
+  id: 2,
+  longitude: -0.574684,
+  latitude: 44.841701,
+  createur: 'Nous',
+  difficulte: 'medium',
+  description: 'plage'
+};
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// Insertion dans la collection "caches"
+caches_model.collection.insertOne(cacheData, function(err, result) {
+  if (err) throw err;
+  console.log('Données insérées avec succès');
+});
+
+
 
 /*****************Gestion des caches****************/
 
@@ -267,6 +327,16 @@ app.get("/comments", (req, res) => {
     .find({})
     .then((caches) => res.status(200).json(caches))
     .catch(res.status(400));
+});
+
+//Pour la Récupération des différents commentaires de tous les joeurs
+app.get("/cachefound/:id", async(req, res) => {
+  const cache = await model_commentaires.collection.findOne({ idbalise: req.params.id, username: username });
+  let found = 0;
+  if (cache) {
+    found = 1;
+  }
+  return res.status(200).json(found);
 });
 
 module.exports = app;
