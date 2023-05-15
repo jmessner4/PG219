@@ -8,43 +8,8 @@ const users_model = require('./models/users');
 const model_commentaires = require('./models/commentaires.js');
 const jwt = require("jsonwebtoken");
 
+// Connection URL
 //const uri = 'mongodb://0.0.0.0:27017/geocachdb';
-// Connection URL
-const uri = 'mongodb://0.0.0.0:27017';
-// Database Name
-const dbName = 'geocachdb';
-
-// Create a new MongoClient
-const client = new ClientMongo(uri);
-// Connect to the MongoDB server
-client.connect(function(err) {
-  if (err) {
-    console.error('Erreur de connexion à la base de données:', err);
-    return;
-  }
-  console.log('Connexion réussie à la base de données');
-
-  // Create the "caches" collection
-  const cachesCollection = client.db(dbName).createCollection('caches', function(err, res) {
-    if (err) throw err;
-    console.log('Collection "caches" créée avec succès');
-  });
-  // Create the "commentaires" collection
-  const commentairesCollection = client.db(dbName).createCollection('commentaires', function(err, res) {
-    if (err) throw err;
-    console.log('Collection "commentaires" créée avec succès');
-  });
-  // Create the "users" collection
-  const usersCollection = client.db(dbName).createCollection('users', function(err, res) {
-    if (err) throw err;
-    console.log('Collection "users" créée avec succès');
-  });
-
-  // Close the connection to the MongoDB server
-  client.close();
-});
-
-// Connection URL
 const uri = 'mongodb://0.0.0.0:27017';
 // Database Name
 const dbName = 'geocachdb';
@@ -102,23 +67,19 @@ mongoose
 // Créer une cache
 const cacheData = {
   _id: '6461f5be1fab6480723f9143',
-  id: 2,
+  id: 1,
   longitude: -0.574684,
   latitude: 44.841701,
   createur: 'Nous',
   difficulte: 'medium',
   description: 'plage'
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 // Insertion dans la collection "caches"
 caches_model.collection.insertOne(cacheData, function(err, result) {
   if (err) throw err;
   console.log('Données insérées avec succès');
 });
-
 
 
 /*****************Gestion des caches****************/
