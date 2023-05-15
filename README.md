@@ -17,7 +17,7 @@ Globalement, le travail était mélangé entre les membres. Bien que l'on puisse
 Pour lancer l'application :
   1) Git clone (du projet)
   2) Effectuer npm install dans le dossier client et le dossier server
-  3) Modifier dans les fichiers du sous-dossier screens l'adresse IP de l'ordinateur et mettre celle de son PC (avec ipconfig).
+  3) Modifier dans les fichiers du sous-dossier ./client/screens l'adresse IP de l'ordinateur et mettre celle de son PC (avec ipconfig).
   4) Effectuer la commande "mongod --dbpath ./mongodata" là où mongodb est installé
   5) Effectuer la commande "npm run server" depuis le dossier ./server (l'exécution sera avec nodemon voir fichier package.json).
   6) Effectuer la commande "npx expo start --tunnel" depuis le dossier ./client puis lancer sur téléphone ou sur un émulateur
