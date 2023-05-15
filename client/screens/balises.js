@@ -6,11 +6,8 @@ import Modal from "react-native-modal";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-<<<<<<< HEAD
+
 const uri = "http://172.20.10.3:3000";
-=======
-const uri = "http://192.168.102.96:3000";
->>>>>>> refs/remotes/origin/main
 
 export default function Balises() {
   //Récupérer les caches
