@@ -5,11 +5,11 @@ Asma Chebbi, Julie Messner, Maya Legris
 
 Répartition du travail :
 
-Asma : Map, Commentaires, Actions sur les balises
+Asma : Map, Commentaires, Actions sur les balises.
 
 Julie : Authentification, token.
 
-Maya : Balises(Affichage, création), Paramètres.
+Maya : Balises (Affichage, création), Paramètres, création database
 
 Globalement, le travail était mélangé entre les membres. Bien que l'on puisse déceler des axes de travails différents, beaucoup de parties ont été mélangé et le travail a été mis en commun.
 
