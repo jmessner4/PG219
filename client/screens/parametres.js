@@ -6,7 +6,7 @@ import Modal from "react-native-modal";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const uri = "http://192.168.0.10:3000";
+const uri = "http://172.20.10.3:3000";
 
 export default function Parametres() {
   //Récupérer les données de l'utilisateur
@@ -92,6 +92,7 @@ export default function Parametres() {
               <TextInput
                 required={true}
                 onChangeText={setPassword}
+                secureTextEntry={true}
                 placeholderTextColor="#666666"
                 style={par.textButton}
               />

@@ -6,7 +6,7 @@ import Modal from "react-native-modal";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const uri = "http://192.168.0.10:3000";
+const uri = "http://172.20.10.3:3000";
 
 export default function Balises() {
   //Récupérer les caches
@@ -82,7 +82,7 @@ export default function Balises() {
         longitude: parseFloat(longitude),
         difficulte: difficulte,
         description: description,
-        //createur: createur,
+        createur: createur,
       })
       .then((res) => {
         //Actualiser la nouvelle liste des caches
@@ -164,7 +164,6 @@ export default function Balises() {
               />
               <Text style={par.textName}>Latitude</Text>
               <TextInput
-                keyboardType="numeric"
                 required={true}
                 onChangeText={setLatitude}
                 placeholderTextColor="#666666"
@@ -172,7 +171,6 @@ export default function Balises() {
               />
               <Text style={par.textName}>Longitude</Text>
               <TextInput
-                keyboardType="numeric"
                 required={true}
                 onChangeText={setLongitude}
                 placeholderTextColor="#666666"
@@ -188,7 +186,7 @@ export default function Balises() {
           <Text style={par.txt}> Balises créées </Text>
         </View>
 
-        {caches.map((cache, idx) => (
+        {caches.filter((cache) => (cache.createur == createur)).map((cache, idx) => (
         <View style={par.userInfo} key={idx}>
           <View style={par.row}>
             <Text
@@ -256,7 +254,6 @@ export default function Balises() {
               />
               <Text style={par.textName}>Latitude</Text>
               <TextInput
-                keyboardType="numeric"
                 required={true}
                 onChangeText={setLatitude}
                 placeholderTextColor="#666666"
@@ -264,7 +261,6 @@ export default function Balises() {
               />
               <Text style={par.textName}>Longitude</Text>
               <TextInput
-                keyboardType="numeric"
                 required={true}
                 onChangeText={setLongitude}
                 placeholderTextColor="#666666"

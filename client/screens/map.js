@@ -7,7 +7,7 @@ import Modal from "react-native-modal";
 import * as Location from "expo-location";
 import MapView from "react-native-maps";
 
-const uri = "http://192.168.0.10:3000";
+const uri = "http://172.20.10.3:3000";
 
 export default function App() {
   const [location, setLocation] = useState(null);
@@ -53,8 +53,6 @@ export default function App() {
     );
   }
 
-  location.latitude = 44.8065219;
-  location.longitude = -0.607979;
 
 
 
@@ -114,6 +112,7 @@ export default function App() {
       });
   };
   
+
   
   return (
     <View style={styles.container}>

@@ -7,7 +7,7 @@ import Homescreen from "./homescreen";
 import Login from "./login";
 import { ScrollView } from "react-native-gesture-handler";
 
-const uri = "http://192.168.0.10:3000";
+const uri = "http://172.20.10.3:3000";
 
 const Signup = ({ navigation }) => {
   const [email, setEmail] = useState("");
