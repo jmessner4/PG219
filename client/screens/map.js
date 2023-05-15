@@ -7,11 +7,7 @@ import Modal from "react-native-modal";
 import * as Location from "expo-location";
 import MapView from "react-native-maps";
 
-<<<<<<< HEAD
 const uri = "http://172.20.10.3:3000";
-=======
-const uri = "http://192.168.102.96:3000";
->>>>>>> refs/remotes/origin/main
 
 export default function App() {
   const [location, setLocation] = useState(null);
