@@ -8,8 +8,8 @@ const users_model = require('./models/users');
 const model_commentaires = require('./models/commentaires.js');
 const jwt = require("jsonwebtoken");
 
-//const uri = 'mongodb://0.0.0.0:27017/geocachdb';
 // Connection URL
+//const uri = 'mongodb://0.0.0.0:27017/geocachdb';
 const uri = 'mongodb://0.0.0.0:27017';
 // Database Name
 const dbName = 'geocachdb';
@@ -67,23 +67,19 @@ mongoose
 // Créer une cache
 const cacheData = {
   _id: '6461f5be1fab6480723f9143',
-  id: 2,
+  id: 1,
   longitude: -0.574684,
   latitude: 44.841701,
   createur: 'Nous',
   difficulte: 'medium',
   description: 'plage'
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 // Insertion dans la collection "caches"
 caches_model.collection.insertOne(cacheData, function(err, result) {
   if (err) throw err;
   console.log('Données insérées avec succès');
 });
-
 
 
 /*****************Gestion des caches****************/
