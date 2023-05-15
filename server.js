@@ -231,4 +231,14 @@ app.get("/comments", (req, res) => {
     .catch(res.status(400));
 });
 
+//Pour la Récupération des différents commentaires de tous les joeurs
+app.get("/cachefound/:id", async(req, res) => {
+  const cache = await model_commentaires.collection.findOne({ idbalise: req.params.id, username: username });
+  let found = 0;
+  if (cache) {
+    found = 1;
+  }
+  return res.status(200).json(found);
+});
+
 module.exports = app;
