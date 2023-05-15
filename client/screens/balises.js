@@ -82,7 +82,7 @@ export default function Balises() {
         longitude: parseFloat(longitude),
         difficulte: difficulte,
         description: description,
-        //createur: createur,
+        createur: createur,
       })
       .then((res) => {
         //Actualiser la nouvelle liste des caches
@@ -139,9 +139,9 @@ export default function Balises() {
           <Button title="Créer une nouvelle balise" onPress={handleModalCreate} />
           <Modal isVisible={isModalVisibleCreate}>
           <View style={{ margin: 15, flex: 1 }}>
-            <Button title="Annuler cbejhkZBC" onPress={handleModalCreate} />
+            <Button title="Annuler" onPress={handleModalCreate} />
             <View style={par.buttonContainer}>
-              <Text style={par.textName}>ID VNJZKN</Text>
+              <Text style={par.textName}>ID</Text>
               <TextInput
                 keyboardType="numeric"
                 required={true}
@@ -188,7 +188,8 @@ export default function Balises() {
           <Text style={par.txt}> Balises créées </Text>
         </View>
 
-        {caches.map((cache, idx) => (
+        {caches.filter((cache) => (cache.createur === createur))
+        .map((cache, idx) => (
         <View style={par.userInfo} key={idx}>
           <View style={par.row}>
             <Text

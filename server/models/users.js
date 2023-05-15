@@ -8,7 +8,7 @@ const model_users = new schema({
     type: "number",
     unique: true,
     default: () =>
-      Math.random().toString(40).substring(2) + Date.now().toString(36),
+      Math.random().toString(36).substring(2) + Date.now().toString(36),
   },
   email: {
     type: "string",

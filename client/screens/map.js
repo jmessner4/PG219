@@ -7,7 +7,7 @@ import Modal from "react-native-modal";
 import * as Location from "expo-location";
 import MapView from "react-native-maps";
 
-const uri = "http://192.168.0.10:3000";
+const uri = "http://192.168.102.96:3000";
 
 export default function App() {
   const [location, setLocation] = useState(null);
@@ -16,9 +16,6 @@ export default function App() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [comment, setComment] = useState("");
   const [username, setUsername] = useState([]);
-  const [found, setfound] = useState("");
-  const [comments, setComments] = useState([]);
-
 
   const radius = 10000;
 
@@ -75,25 +72,6 @@ export default function App() {
     return degrees * (Math.PI / 180);
   }
 
-  const cacheFound = async (id) => {
-    try {
-      const res = await axios.get(uri.concat(`/cachefound/${id}`));
-      setfound(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const GetCommentaire = async () => {
-    try {
-      const res = await axios.get(uri.concat("", "/comments"));
-      setComments(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  GetCommentaire();
-
 
   // Fenetre pop-up
   const handleModal = () => {
@@ -106,7 +84,7 @@ export default function App() {
 
   
   //envoi d'une requète pour la récupération du username du joueur connecté
-    const getUser = async () => {
+  const getUser = async () => {
     try {
       const res = await axios.get(uri.concat("", "/username"));
       setUsername(res.data);
@@ -144,8 +122,8 @@ export default function App() {
         initialRegion={{
           latitude: location.latitude,
           longitude: location.longitude,
-          latitudeDelta: 4,
-          longitudeDelta: 4,
+          latitudeDelta: 2,
+          longitudeDelta: 2,
         }}
       >
 
@@ -171,11 +149,7 @@ export default function App() {
 
         {caches.map((cache, idx) => {
           const distance = calculateDistance(cache, location);
-          const cacheComments = comments.filter(comment => comment.idbalise === cache.id);
-          const isFound = cacheComments.length > 0;
-          let markerColor = "gold";
           if (distance < radius) {
-            markerColor = isFound ? "green" : "gold";
             return (
               <Marker
                 coordinate={{
@@ -184,11 +158,12 @@ export default function App() {
                 }}
                 key={idx}
                 onPress={() => handleMarkerPress(cache)}
-                pinColor={markerColor}
+                pinColor="gold"
               />
             );
           }
           return null;
+          // Ignorer les marqueurs qui ne satisfont pas la condition
         })}
 
       </MapView>
